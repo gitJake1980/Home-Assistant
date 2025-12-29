@@ -5,74 +5,57 @@ blueprint:
   description: |-
     # Adaptive Lighting Scheduler
 
-    This blueprint calculates optimal brightness and color temperature values
-    throughout the day and stores them in input_number helpers for use by other
-    automations and blueprints.
+    This blueprint calculates optimal brightness and color temperature values throughout the day and stores them in input_number helpers for use by other automations and blueprints.
 
     ## Key Features
 
-    - Schedule-Based: Configure different times for each day of the week
-      (weekdays vs weekends)
-    - Sun Tracking: Optional sunrise and sunset awareness for natural transitions
-    - Smooth Ramping: Gradual transitions between day phases (wake, morning,
-      evening, sleep, night)
-    - Helper Output: Stores values in input_number entities for use by switches,
-      dashboards, and other automations
-    - Direct Light Control: Optionally control lights directly through this
-      blueprint. Works standalone without button automations, or alongside them
-      for centralized adaptive scheduling
-    - Auto-Adjust: Automatically update selected lights when schedule changes
-      (only affects lights that are ON)
-    - Multiple Zones: Create multiple instances with different helper pairs
-      for different lighting zones
+    - **Schedule-Based:** Configure different times for each day of the week (weekdays vs weekends)
+    - **Sun Tracking:** Optional sunrise and sunset awareness for natural transitions
+    - **Smooth Ramping:** Gradual transitions between day phases (wake, morning, evening, sleep, night)
+    - **Helper Output:** Stores values in input_number entities for use by switches, dashboards, and other automations
+    - **Direct Light Control:** Optionally control lights directly through this blueprint. Works standalone without button automations, or alongside them for centralized adaptive scheduling
+    - **Auto-Adjust:** Automatically update selected lights when schedule changes (only affects lights that are ON)
+    - **Multiple Zones:** Create multiple instances with different helper pairs for different lighting zones
 
-    Each configuration option below includes detailed instructions in the
-    automation editor.
+    Each configuration option below includes detailed instructions in the automation editor.
 
     ## How It Works
 
     Set fixed times for your daily routine, with optional sun-based adjustments:
 
-    - Night to Wake: Flat night values
-    - Wake to Morning: Ramp up to maximum values. With sun tracking enabled,
-      the ramp waits for sunrise if it occurs after the configured wake time
-    - Morning to Evening: Flat daytime values
-    - Evening to Sleep: Ramp down to minimum values, optionally starting at sunset
-    - Sleep to Night: Ramp down to night values
+    - **Night → Wake:** Flat night values
+    - **Wake → Morning:** Ramp up to maximum values. With sun tracking enabled, the ramp waits for sunrise if it occurs after the configured wake time
+    - **Morning → Evening:** Flat daytime values
+    - **Evening → Sleep:** Ramp down to minimum values, optionally starting at sunset
+    - **Sleep → Night:** Ramp down to night values
 
-    Each day of the week has its own time settings, allowing different schedules
-    for weekdays versus weekends.
+    Each day of the week has its own time settings, allowing different schedules for weekdays versus weekends.
 
     ## Sunrise Tracking Examples
 
-    Summer example:
-    Sunrise at 05:00, wake at 07:30, morning at 09:00.
-    Ramp occurs from 07:30 to 09:00.
+    Summer example: (Sunrise at 05:00, wake at 07:30, morning at 09:00.) Ramp 07:30 → 09:00.
 
-    Winter example:
-    Sunrise at 08:47, wake at 07:30, morning at 09:00.
-    Ramp occurs from 08:47 to 09:00.
+    Winter example: (Sunrise at 08:47, wake at 07:30, morning at 09:00.) Ramp 08:47 → 09:00.
 
     Brightness and color temperature values are shared across all days.
 
     ## Example Default Weekday Schedule
 
-    Time        | Brightness        | Color Temperature | Phase
-    00:00-07:30 | 25 percent        | 2200 K            | Night (flat)
-    07:30-09:00 | 25 to 100 percent | 2200 to 4000 K    | Morning ramp
-    09:00-18:30 | 100 percent       | 4000 K            | Day (flat)
-    18:30-23:30 | 100 to 50 percent | 4000 to 2700 K    | Evening ramp
-    23:30-00:00 | 50 to 25 percent  | 2700 to 2200 K    | Sleep ramp
+    | Time        | Brightness        | Color Temperature | Phase        |
+    |-------------|-------------------|-------------------|=-------------|
+    | 00:00-07:30 | 25 percent        | 2200 K            | Night (flat) |
+    | 07:30-09:00 | 25 to 100 percent | 2200 to 4000 K    | Morning ramp |
+    | 09:00-18:30 | 100 percent       | 4000 K            | Day (flat)   |
+    | 18:30-23:30 | 100 to 50 percent | 4000 to 2700 K    | Evening ramp |
+    | 23:30-00:00 | 50 to 25 percent  | 2700 to 2200 K    | Sleep ramp   |
 
     ## Setup
 
     Optional package setup:
-    Helpers may be organized into Home Assistant packages for easier management.
-    Create a packages folder in the config directory and include it in
-    configuration.yaml.
+    Helpers may be organized into Home Assistant packages for easier management. Create a packages folder in the config directory and include it in configuration.yaml.
 
     Helper YAML example:
-    Create input_number helpers for brightness and color temperature.
+    Create input_number helpers for brightness and color temperature. 
     Brightness helper range: minimum 0, maximum 100, step 1.
     Color temperature helper range: minimum 2000, maximum 6500, step 100.
 
