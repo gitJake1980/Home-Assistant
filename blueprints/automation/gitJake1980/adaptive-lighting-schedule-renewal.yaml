@@ -2,51 +2,52 @@ blueprint:
   name: Adaptive Lighting Scheduler (v2)
   author: danielpetrovic + revisions
   description: "# Adaptive Lighting Scheduler\n\nThis blueprint calculates optimal
-    brightness and color temperature values\nthroughout the day and stores them in
-    input_number helpers for use by other\nautomations and blueprints.\n\n## Key Features\n\n-
-    Schedule-Based: Configure different times for each day of the week\n  (weekdays
-    vs weekends)\n- Sun Tracking: Optional sunrise and sunset awareness for natural
-    transitions\n- Smooth Ramping: Gradual transitions between day phases (wake, morning,\n
-    \ evening, sleep, night)\n- Helper Output: Stores values in input_number entities
-    for use by switches,\n  dashboards, and other automations\n- Direct Light Control:
-    Optionally control lights directly through this\n  blueprint. Works standalone
-    without button automations, or alongside them\n  for centralized adaptive scheduling\n-
-    Auto-Adjust: Automatically update selected lights when schedule changes\n  (only
-    affects lights that are ON)\n- Multiple Zones: Create multiple instances with
-    different helper pairs\n  for different lighting zones\n\nEach configuration option
-    below includes detailed instructions in the\nautomation editor.\n\n## How It Works\n\nSet
+    brightness and color temperature values throughout the day and stores them in
+    input_number helpers for use by other automations and blueprints.\n\n## Key Features\n\n-
+    **Schedule-Based:** Configure different times for each day of the week (weekdays
+    vs weekends)\n- **Sun Tracking:** Optional sunrise and sunset awareness for natural
+    transitions\n- **Smooth Ramping:** Gradual transitions between day phases (wake,
+    morning, evening, sleep, night)\n- **Helper Output:** Stores values in input_number
+    entities for use by switches, dashboards, and other automations\n- **Direct Light
+    Control:** Optionally control lights directly through this blueprint. Works standalone
+    without button automations, or alongside them for centralized adaptive scheduling\n-
+    **Auto-Adjust:** Automatically update selected lights when schedule changes (only
+    affects lights that are ON)\n- **Multiple Zones:** Create multiple instances with
+    different helper pairs for different lighting zones\n\nEach configuration option
+    below includes detailed instructions in the automation editor.\n\n## How It Works\n\nSet
     fixed times for your daily routine, with optional sun-based adjustments:\n\n-
-    Night to Wake: Flat night values\n- Wake to Morning: Ramp up to maximum values.
-    With sun tracking enabled,\n  the ramp waits for sunrise if it occurs after the
-    configured wake time\n- Morning to Evening: Flat daytime values\n- Evening to
-    Sleep: Ramp down to minimum values, optionally starting at sunset\n- Sleep to
-    Night: Ramp down to night values\n\nEach day of the week has its own time settings,
-    allowing different schedules\nfor weekdays versus weekends.\n\n## Sunrise Tracking
-    Examples\n\nSummer example:\nSunrise at 05:00, wake at 07:30, morning at 09:00.\nRamp
-    occurs from 07:30 to 09:00.\n\nWinter example:\nSunrise at 08:47, wake at 07:30,
-    morning at 09:00.\nRamp occurs from 08:47 to 09:00.\n\nBrightness and color temperature
-    values are shared across all days.\n\n## Example Default Weekday Schedule\n\nTime
-    \       | Brightness        | Color Temperature | Phase\n00:00-07:30 | 25 percent
-    \       | 2200 K            | Night (flat)\n07:30-09:00 | 25 to 100 percent |
-    2200 to 4000 K    | Morning ramp\n09:00-18:30 | 100 percent       | 4000 K            |
-    Day (flat)\n18:30-23:30 | 100 to 50 percent | 4000 to 2700 K    | Evening ramp\n23:30-00:00
-    | 50 to 25 percent  | 2700 to 2200 K    | Sleep ramp\n\n## Setup\n\nOptional package
-    setup:\nHelpers may be organized into Home Assistant packages for easier management.\nCreate
-    a packages folder in the config directory and include it in\nconfiguration.yaml.\n\nHelper
-    YAML example:\nCreate input_number helpers for brightness and color temperature.\nBrightness
-    helper range: minimum 0, maximum 100, step 1.\nColor temperature helper range:
-    minimum 2000, maximum 6500, step 100.\n\nMultiple helper pairs may be created
-    for different lighting zones.\n\nGUI alternative:\nHelpers may also be created
-    through the Home Assistant user interface under\nSettings, Devices and Services,
-    Helpers.\n\n## After Creating Helpers\n\nCreate an automation from this blueprint.\nConfigure
-    times for each day using the provided defaults.\nReference the helpers from other
-    automations or blueprints to apply adaptive\nbrightness and color temperature
-    values.\n\n## Direct Light Control (Optional)\n\nLights may be selected to automatically
-    adjust based on the adaptive schedule.\n\n- Lights to Control: Select lights,
-    devices, or areas\n- Enable Auto-Adjust: Automatically update lights when the
-    schedule changes\n- Auto-Adjust Transition: Smooth transition duration, default
-    five minutes\n\nTwo usage patterns are supported.\n\nStandalone mode:\nSuitable
-    if you want fully automatic adaptive lighting without button\nautomations.\n\nButton
+    **Night → Wake:** Flat night values\n- **Wake → Morning:** Ramp up to maximum
+    values. With sun tracking enabled, the ramp waits for sunrise if it occurs after
+    the configured wake time\n- **Morning → Evening:** Flat daytime values\n- **Evening
+    → Sleep:** Ramp down to minimum values, optionally starting at sunset\n- **Sleep
+    → Night:** Ramp down to night values\n\nEach day of the week has its own time
+    settings, allowing different schedules for weekdays versus weekends.\n\n## Sunrise
+    Tracking Examples\n\nSummer example: (Sunrise at 05:00, wake at 07:30, morning
+    at 09:00.) Ramp 07:30 → 09:00.\n\nWinter example: (Sunrise at 08:47, wake at 07:30,
+    morning at 09:00.) Ramp 08:47 → 09:00.\n\nBrightness and color temperature values
+    are shared across all days.\n\n## Example Default Weekday Schedule\n\n| Time        |
+    Brightness        | Color Temperature | Phase        |\n|-------------|-------------------|-------------------|=-------------|\n|
+    00:00-07:30 | 25 percent        | 2200 K            | Night (flat) |\n| 07:30-09:00
+    | 25 to 100 percent | 2200 to 4000 K    | Morning ramp |\n| 09:00-18:30 | 100
+    percent       | 4000 K            | Day (flat)   |\n| 18:30-23:30 | 100 to 50
+    percent | 4000 to 2700 K    | Evening ramp |\n| 23:30-00:00 | 50 to 25 percent
+    \ | 2700 to 2200 K    | Sleep ramp   |\n\n## Setup\n\nOptional package setup:\nHelpers
+    may be organized into Home Assistant packages for easier management. Create a
+    packages folder in the config directory and include it in configuration.yaml.\n\nHelper
+    YAML example:\nCreate input_number helpers for brightness and color temperature.
+    \nBrightness helper range: minimum 0, maximum 100, step 1.\nColor temperature
+    helper range: minimum 2000, maximum 6500, step 100.\n\nMultiple helper pairs may
+    be created for different lighting zones.\n\nGUI alternative:\nHelpers may also
+    be created through the Home Assistant user interface under\nSettings, Devices
+    and Services, Helpers.\n\n## After Creating Helpers\n\nCreate an automation from
+    this blueprint.\nConfigure times for each day using the provided defaults.\nReference
+    the helpers from other automations or blueprints to apply adaptive\nbrightness
+    and color temperature values.\n\n## Direct Light Control (Optional)\n\nLights
+    may be selected to automatically adjust based on the adaptive schedule.\n\n- Lights
+    to Control: Select lights, devices, or areas\n- Enable Auto-Adjust: Automatically
+    update lights when the schedule changes\n- Auto-Adjust Transition: Smooth transition
+    duration, default five minutes\n\nTwo usage patterns are supported.\n\nStandalone
+    mode:\nSuitable if you want fully automatic adaptive lighting without button\nautomations.\n\nButton
     automation mode:\nUse this blueprint for centralized scheduling while buttons
     simply apply\nthe current adaptive values.\n\nLights are only updated when they
     are already on.\nThis blueprint will never turn lights on or off automatically.\n\n##
