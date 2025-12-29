@@ -724,3 +724,566 @@
     light.living_room_floor_lamp_2:
       entity_only: true
   icon: mdi:lightbulb-group
+- id: '1766984569742'
+  name: Red Light District
+  entities:
+    light.bedroom_floor_lamp_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6500
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      friendly_name: Bedroom Floor Lamp 1
+      supported_features: 0
+      color_mode: hs
+      brightness: 51
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 0
+      - 100
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      xy_color:
+      - 0.701
+      - 0.299
+      state: 'on'
+    light.bedroom_floor_lamp_2:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6500
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      friendly_name: Bedroom Floor Lamp 2
+      supported_features: 0
+      color_mode: hs
+      brightness: 51
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 0
+      - 100
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      xy_color:
+      - 0.701
+      - 0.299
+      state: 'on'
+    light.bedroom_sconce_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      friendly_name: Bedroom Sconce 1
+      supported_features: 40
+      color_mode: xy
+      brightness: 51
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 16.471
+      - 100
+      rgb_color:
+      - 255
+      - 70
+      - 0
+      xy_color:
+      - 0.675
+      - 0.322
+      mode: normal
+      dynamics: none
+      state: 'on'
+    light.bedroom_sconce_2:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      friendly_name: Bedroom Sconce 2
+      supported_features: 40
+      color_mode: xy
+      brightness: 51
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 16.471
+      - 100
+      rgb_color:
+      - 255
+      - 70
+      - 0
+      xy_color:
+      - 0.675
+      - 0.322
+      mode: normal
+      dynamics: none
+      state: 'on'
+    light.ceiling_lamp_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 26
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 16.471
+      - 100
+      rgb_color:
+      - 255
+      - 70
+      - 0
+      xy_color:
+      - 0.675
+      - 0.322
+      mode: normal
+      dynamics: none
+      friendly_name: Ceiling Lamp 1
+      supported_features: 40
+      state: 'on'
+    light.ceiling_lamp_2:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 26
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 16.471
+      - 100
+      rgb_color:
+      - 255
+      - 70
+      - 0
+      xy_color:
+      - 0.675
+      - 0.322
+      mode: normal
+      dynamics: none
+      friendly_name: Ceiling Lamp 2
+      supported_features: 40
+      state: 'on'
+    light.ceiling_lamp_3:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 26
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 16.471
+      - 100
+      rgb_color:
+      - 255
+      - 70
+      - 0
+      xy_color:
+      - 0.675
+      - 0.322
+      mode: normal
+      dynamics: none
+      friendly_name: Ceiling Lamp 3
+      supported_features: 40
+      state: 'on'
+    light.ceiling_lamp_4:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 26
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 16.471
+      - 100
+      rgb_color:
+      - 255
+      - 70
+      - 0
+      xy_color:
+      - 0.675
+      - 0.322
+      mode: normal
+      dynamics: none
+      friendly_name: Ceiling Lamp 4
+      supported_features: 40
+      state: 'on'
+    light.kitchen_light_strip:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 255
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 10.118
+      - 100
+      rgb_color:
+      - 255
+      - 43
+      - 0
+      xy_color:
+      - 0.6915
+      - 0.3083
+      mode: normal
+      dynamics: none
+      friendly_name: Kitchen Light Strip
+      supported_features: 40
+      state: 'on'
+    light.desk_strip_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - 'off'
+      - candle
+      - fire
+      - prism
+      - sparkle
+      - opal
+      - glisten
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect: 'off'
+      color_mode: xy
+      brightness: 255
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 10.118
+      - 100
+      rgb_color:
+      - 255
+      - 43
+      - 0
+      xy_color:
+      - 0.6915
+      - 0.3083
+      mode: normal
+      dynamics: none
+      friendly_name: Desk Strip 1
+      supported_features: 44
+      state: 'on'
+    light.desk_lamp:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 26
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 16.471
+      - 100
+      rgb_color:
+      - 255
+      - 70
+      - 0
+      xy_color:
+      - 0.675
+      - 0.322
+      mode: normal
+      dynamics: none
+      friendly_name: Desk Lamp
+      supported_features: 40
+      state: 'on'
+    light.living_room_floor_lamp_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6500
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: hs
+      brightness: 26
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 0
+      - 100
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      xy_color:
+      - 0.701
+      - 0.299
+      friendly_name: Living Room Floor Lamp 1
+      supported_features: 0
+      state: 'on'
+    light.living_room_floor_lamp_2:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6500
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: hs
+      brightness: 26
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 0
+      - 100
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      xy_color:
+      - 0.701
+      - 0.299
+      friendly_name: Living Room Floor Lamp 2
+      supported_features: 0
+      state: 'on'
+    light.foyer_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 26
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 16.471
+      - 100
+      rgb_color:
+      - 255
+      - 70
+      - 0
+      xy_color:
+      - 0.675
+      - 0.322
+      mode: normal
+      dynamics: none
+      friendly_name: Foyer 1
+      supported_features: 40
+      state: 'on'
+    light.foyer_2:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 26
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 16.471
+      - 100
+      rgb_color:
+      - 255
+      - 70
+      - 0
+      xy_color:
+      - 0.675
+      - 0.322
+      mode: normal
+      dynamics: none
+      friendly_name: Foyer 2
+      supported_features: 40
+      state: 'on'
+    light.front_closet:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - 'off'
+      - candle
+      - fire
+      - prism
+      - sparkle
+      - opal
+      - glisten
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect: 'off'
+      color_mode: xy
+      brightness: 255
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 10.118
+      - 100
+      rgb_color:
+      - 255
+      - 43
+      - 0
+      xy_color:
+      - 0.6915
+      - 0.3083
+      mode: normal
+      dynamics: none
+      friendly_name: Front Closet
+      supported_features: 44
+      state: 'on'
+    light.hallway:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 26
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 16.471
+      - 100
+      rgb_color:
+      - 255
+      - 70
+      - 0
+      xy_color:
+      - 0.675
+      - 0.322
+      mode: normal
+      dynamics: none
+      friendly_name: Hallway
+      supported_features: 40
+      state: 'on'
+    light.all_lights:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - candle
+      - fire
+      - glisten
+      - 'off'
+      - opal
+      - prism
+      - sparkle
+      supported_color_modes:
+      - color_temp
+      - hs
+      - xy
+      effect: 'off'
+      color_mode: xy
+      brightness: 72
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 13.412
+      - 100
+      rgb_color:
+      - 255
+      - 57
+      - 0
+      xy_color:
+      - 0.684029
+      - 0.314171
+      entity_id:
+      - light.bedroom_floor_lamp_1
+      - light.bedroom_floor_lamp_2
+      - light.bedroom_sconce_1
+      - light.bedroom_sconce_2
+      - light.ceiling_lamp_1
+      - light.ceiling_lamp_2
+      - light.ceiling_lamp_3
+      - light.ceiling_lamp_4
+      - light.desk_lamp
+      - light.desk_strip_1
+      - light.foyer_1
+      - light.foyer_2
+      - light.front_closet
+      - light.hallway
+      - light.kitchen_light_strip
+      - light.living_room_floor_lamp_1
+      - light.living_room_floor_lamp_2
+      icon: mdi:lightbulb-group
+      friendly_name: All Lights
+      supported_features: 44
+      state: 'on'
+  metadata:
+    light.bedroom_floor_lamp_1:
+      entity_only: true
+    light.bedroom_floor_lamp_2:
+      entity_only: true
+    light.bedroom_sconce_1:
+      entity_only: true
+    light.bedroom_sconce_2:
+      entity_only: true
+    light.ceiling_lamp_1:
+      entity_only: true
+    light.ceiling_lamp_2:
+      entity_only: true
+    light.ceiling_lamp_3:
+      entity_only: true
+    light.ceiling_lamp_4:
+      entity_only: true
+    light.kitchen_light_strip:
+      entity_only: true
+    light.desk_strip_1:
+      entity_only: true
+    light.desk_lamp:
+      entity_only: true
+    light.living_room_floor_lamp_1:
+      entity_only: true
+    light.living_room_floor_lamp_2:
+      entity_only: true
+    light.foyer_1:
+      entity_only: true
+    light.foyer_2:
+      entity_only: true
+    light.front_closet:
+      entity_only: true
+    light.hallway:
+      entity_only: true
+    light.all_lights:
+      entity_only: true
