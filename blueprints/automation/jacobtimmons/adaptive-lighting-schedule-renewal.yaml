@@ -1,7 +1,7 @@
 blueprint:
   name: Adaptive Lighting Scheduler (v2)
   author: danielpetrovic + revisions
-
+  
   description: |-
     # Adaptive Lighting Scheduler
 
@@ -117,8 +117,6 @@ blueprint:
     Optional enable and disable helper with static scene override (party mode).
 
 
-  
-  
   domain: automation
   homeassistant:
     min_version: 2024.10.0
@@ -288,7 +286,7 @@ blueprint:
           selector:
             boolean: {}
         use_sunset:
-          name: Finish Afternoon at Sunset
+          name: Finish Afternoon Ramp at Sunset
           default: true
           selector:
             boolean: {}
@@ -313,18 +311,36 @@ blueprint:
               unit_of_measurement: min
               mode: slider
 
-    # --- 7x6 schedule (Wake, Morning, Afternoon, Evening, Sleep, Night) ---
+    # --- 7x5 schedule (Wake, Morning, Afternoon Ramp Start, Evening Flat Start, Sleep, Night) ---
     time_settings_monday:
       name: Time Settings - Monday
       icon: mdi:calendar-today
       collapsed: true
       input:
-        wake_time_mon: { name: Wake Time, default: "07:30:00", selector: { time: {} } }
-        morning_time_mon: { name: Morning Time, default: "09:00:00", selector: { time: {} } }
-        afternoon_time_mon: { name: Afternoon Time, default: "17:00:00", selector: { time: {} } }
-        evening_time_mon: { name: Evening Time, default: "18:00:00", selector: { time: {} } }
-        sleep_time_mon: { name: Sleep Time, default: "23:30:00", selector: { time: {} } }
-        night_time_mon: { name: Night Time, default: "00:00:00", selector: { time: {} } }
+        wake_time_mon:
+          name: Wake Time
+          default: "07:30:00"
+          selector: { time: {} }
+        morning_time_mon:
+          name: Morning Time
+          default: "09:00:00"
+          selector: { time: {} }
+        evening_time_mon:
+          name: Afternoon Ramp Start
+          default: "18:30:00"
+          selector: { time: {} }
+        evening_flat_time_mon:
+          name: Evening Flat Start
+          default: "21:30:00"
+          selector: { time: {} }
+        sleep_time_mon:
+          name: Sleep Time
+          default: "23:30:00"
+          selector: { time: {} }
+        night_time_mon:
+          name: Night Time
+          default: "00:00:00"
+          selector: { time: {} }
 
     time_settings_tuesday:
       name: Time Settings - Tuesday
@@ -333,8 +349,8 @@ blueprint:
       input:
         wake_time_tue: { name: Wake Time, default: "07:30:00", selector: { time: {} } }
         morning_time_tue: { name: Morning Time, default: "09:00:00", selector: { time: {} } }
-        afternoon_time_tue: { name: Afternoon Time, default: "17:00:00", selector: { time: {} } }
-        evening_time_tue: { name: Evening Time, default: "18:00:00", selector: { time: {} } }
+        evening_time_tue: { name: Afternoon Ramp Start, default: "18:30:00", selector: { time: {} } }
+        evening_flat_time_tue: { name: Evening Flat Start, default: "21:30:00", selector: { time: {} } }
         sleep_time_tue: { name: Sleep Time, default: "23:30:00", selector: { time: {} } }
         night_time_tue: { name: Night Time, default: "00:00:00", selector: { time: {} } }
 
@@ -345,8 +361,8 @@ blueprint:
       input:
         wake_time_wed: { name: Wake Time, default: "07:30:00", selector: { time: {} } }
         morning_time_wed: { name: Morning Time, default: "09:00:00", selector: { time: {} } }
-        afternoon_time_tue: { name: Afternoon Time, default: "17:00:00", selector: { time: {} } }
-        evening_time_wed: { name: Evening Time, default: "18:00:00", selector: { time: {} } }
+        evening_time_wed: { name: Afternoon Ramp Start, default: "18:30:00", selector: { time: {} } }
+        evening_flat_time_wed: { name: Evening Flat Start, default: "21:30:00", selector: { time: {} } }
         sleep_time_wed: { name: Sleep Time, default: "23:30:00", selector: { time: {} } }
         night_time_wed: { name: Night Time, default: "00:00:00", selector: { time: {} } }
 
@@ -357,8 +373,8 @@ blueprint:
       input:
         wake_time_thu: { name: Wake Time, default: "07:30:00", selector: { time: {} } }
         morning_time_thu: { name: Morning Time, default: "09:00:00", selector: { time: {} } }
-        afternoon_time_thu: { name: Afternoon Time, default: "17:00:00", selector: { time: {} } }
-        evening_time_thu: { name: Evening Time, default: "18:00:00", selector: { time: {} } }
+        evening_time_thu: { name: Afternoon Ramp Start, default: "18:30:00", selector: { time: {} } }
+        evening_flat_time_thu: { name: Evening Flat Start, default: "21:30:00", selector: { time: {} } }
         sleep_time_thu: { name: Sleep Time, default: "23:30:00", selector: { time: {} } }
         night_time_thu: { name: Night Time, default: "00:00:00", selector: { time: {} } }
 
@@ -369,8 +385,8 @@ blueprint:
       input:
         wake_time_fri: { name: Wake Time, default: "07:30:00", selector: { time: {} } }
         morning_time_fri: { name: Morning Time, default: "09:00:00", selector: { time: {} } }
-        afternoon_time_fri: { name: Afternoon Time, default: "17:00:00", selector: { time: {} } }
-        evening_time_fri: { name: Evening Time, default: "18:00:00", selector: { time: {} } }
+        evening_time_fri: { name: Afternoon Ramp Start, default: "18:30:00", selector: { time: {} } }
+        evening_flat_time_fri: { name: Evening Flat Start, default: "21:30:00", selector: { time: {} } }
         sleep_time_fri: { name: Sleep Time, default: "23:30:00", selector: { time: {} } }
         night_time_fri: { name: Night Time, default: "00:00:00", selector: { time: {} } }
 
@@ -381,8 +397,8 @@ blueprint:
       input:
         wake_time_sat: { name: Wake Time, default: "08:30:00", selector: { time: {} } }
         morning_time_sat: { name: Morning Time, default: "10:00:00", selector: { time: {} } }
-        afternoon_time_sat: { name: Afternoon Time, default: "17:00:00", selector: { time: {} } }
-        evening_time_sat: { name: Evening Time, default: "18:00:00", selector: { time: {} } }
+        evening_time_sat: { name: Afternoon Ramp Start, default: "18:30:00", selector: { time: {} } }
+        evening_flat_time_sat: { name: Evening Flat Start, default: "22:00:00", selector: { time: {} } }
         sleep_time_sat: { name: Sleep Time, default: "23:30:00", selector: { time: {} } }
         night_time_sat: { name: Night Time, default: "00:00:00", selector: { time: {} } }
 
@@ -393,8 +409,8 @@ blueprint:
       input:
         wake_time_sun: { name: Wake Time, default: "08:30:00", selector: { time: {} } }
         morning_time_sun: { name: Morning Time, default: "10:00:00", selector: { time: {} } }
-        afternoon_time_sun: { name: Afternoon Time, default: "17:00:00", selector: { time: {} } }
-        evening_time_sun: { name: Evening Time, default: "18:00:00", selector: { time: {} } }
+        evening_time_sun: { name: Afternoon Ramp Start, default: "18:30:00", selector: { time: {} } }
+        evening_flat_time_sun: { name: Evening Flat Start, default: "22:00:00", selector: { time: {} } }
         sleep_time_sun: { name: Sleep Time, default: "23:30:00", selector: { time: {} } }
         night_time_sun: { name: Night Time, default: "00:00:00", selector: { time: {} } }
 
@@ -423,50 +439,50 @@ variables:
   # per-day inputs
   wake_time_mon: !input wake_time_mon
   morning_time_mon: !input morning_time_mon
-  afternoon_time_mon: !input afternoon_time_mon
   evening_time_mon: !input evening_time_mon
+  evening_flat_time_mon: !input evening_flat_time_mon
   sleep_time_mon: !input sleep_time_mon
   night_time_mon: !input night_time_mon
 
   wake_time_tue: !input wake_time_tue
   morning_time_tue: !input morning_time_tue
-  afternoon_time_tue: !input afternoon_time_tue
   evening_time_tue: !input evening_time_tue
+  evening_flat_time_tue: !input evening_flat_time_tue
   sleep_time_tue: !input sleep_time_tue
   night_time_tue: !input night_time_tue
 
   wake_time_wed: !input wake_time_wed
   morning_time_wed: !input morning_time_wed
-  afternoon_time_wed: !input afternoon_time_wed
   evening_time_wed: !input evening_time_wed
+  evening_flat_time_wed: !input evening_flat_time_wed
   sleep_time_wed: !input sleep_time_wed
   night_time_wed: !input night_time_wed
 
   wake_time_thu: !input wake_time_thu
   morning_time_thu: !input morning_time_thu
-  afternoon_time_thu: !input afternoon_time_thu
   evening_time_thu: !input evening_time_thu
+  evening_flat_time_thu: !input evening_flat_time_thu
   sleep_time_thu: !input sleep_time_thu
   night_time_thu: !input night_time_thu
 
   wake_time_fri: !input wake_time_fri
   morning_time_fri: !input morning_time_fri
-  afternoon_time_fri: !input afternoon_time_fri
   evening_time_fri: !input evening_time_fri
+  evening_flat_time_fri: !input evening_flat_time_fri
   sleep_time_fri: !input sleep_time_fri
   night_time_fri: !input night_time_fri
 
   wake_time_sat: !input wake_time_sat
   morning_time_sat: !input morning_time_sat
-  afternoon_time_sat: !input afternoon_time_sat
   evening_time_sat: !input evening_time_sat
+  evening_flat_time_sat: !input evening_flat_time_sat
   sleep_time_sat: !input sleep_time_sat
   night_time_sat: !input night_time_sat
 
   wake_time_sun: !input wake_time_sun
   morning_time_sun: !input morning_time_sun
-  afternoon_time_sun: !input afternoon_time_sun
   evening_time_sun: !input evening_time_sun
+  evening_flat_time_sun: !input evening_flat_time_sun
   sleep_time_sun: !input sleep_time_sun
   night_time_sun: !input night_time_sun
 
@@ -480,8 +496,8 @@ variables:
   day: "{{ now().weekday() }}"
   wake_time: "{{ [wake_time_mon, wake_time_tue, wake_time_wed, wake_time_thu, wake_time_fri, wake_time_sat, wake_time_sun][day] }}"
   morning_time: "{{ [morning_time_mon, morning_time_tue, morning_time_wed, morning_time_thu, morning_time_fri, morning_time_sat, morning_time_sun][day] }}"
-  afternoon_start_cfg: "{{ [afternoon_time_mon, afternoon_time_tue, afternoon_time_wed, afternoon_time_thu, afternoon_time_fri, afternoon_time_sat, afternoon_time_sun][day] }}"
-  evening_flat_cfg: "{{ [evening_time_mon, evening_time_tue, evening_time_wed, evening_time_thu, evening_time_fri, evening_time_sat, evening_time_sun][day] }}"
+  afternoon_start_cfg: "{{ [evening_time_mon, evening_time_tue, evening_time_wed, evening_time_thu, evening_time_fri, evening_time_sat, evening_time_sun][day] }}"
+  evening_flat_cfg: "{{ [evening_flat_time_mon, evening_flat_time_tue, evening_flat_time_wed, evening_flat_time_thu, evening_flat_time_fri, evening_flat_time_sat, evening_flat_time_sun][day] }}"
   sleep_time: "{{ [sleep_time_mon, sleep_time_tue, sleep_time_wed, sleep_time_thu, sleep_time_fri, sleep_time_sat, sleep_time_sun][day] }}"
   night_time: "{{ [night_time_mon, night_time_tue, night_time_wed, night_time_thu, night_time_fri, night_time_sat, night_time_sun][day] }}"
 
