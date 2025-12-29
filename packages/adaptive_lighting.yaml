@@ -1,0 +1,29 @@
+input_number:
+  adaptive_brightness:
+    name: "Adaptive Brightness"
+    icon: mdi:brightness-percent
+    min: 0
+    max: 100
+    step: 1
+    unit_of_measurement: "%"
+  adaptive_color_temp:
+    name: "Adaptive Color Temperature"
+    icon: mdi:temperature-kelvin
+    min: 2500
+    max: 6500
+    step: 100
+    unit_of_measurement: "K"
+  adaptive_brightness_torchier:
+    name: "Adaptive Brightness (Torchiers)"
+    icon: mdi:brightness-percent
+    min: 0
+    max: 100
+    step: 1
+    unit_of_measurement: "%"
+  adaptive_color_temp_torchier:
+    name: "Adaptive Color Temperature (Torchiers)"
+    icon: mdi:temperature-kelvin
+    min: 2000
+    max: 6000
+    step: 100
+    unit_of_measurement: "K"

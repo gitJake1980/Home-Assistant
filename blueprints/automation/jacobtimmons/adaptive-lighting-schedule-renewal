@@ -1,0 +1,802 @@
+blueprint:
+  name: Adaptive Lighting Scheduler Renewal
+  author: jacobtimmons
+  source_url: https://github.com/danielpetrovic/home-assistant-config/blob/main/blueprints/automation/danielpetrovic/adaptive-lighting-scheduler.yaml
+  description: "# Adaptive Lighting Scheduler\n\nThis blueprint calculates optimal brightness and color temperature values throughout the day 
+    and stores them in input_number helpers for use by other automations and blueprints.\n\n## Key Features\n- **Schedule-Based**: Configure 
+    different times for each day of the week (weekdays vs weekends)\n- **Sun Tracking**: Optional sunrise/sunset awareness for natural 
+    transitions\n- **Smooth Ramping**: Gradual transitions between day phases (wake, morning, afternoon ramp, evening flat, sleep, night)\n- 
+    **Helper Output**: Stores values in input_number entities for use by switches, dashboards, and other automations\n- **Direct Light Control**: 
+    Optionally control lights directly through this blueprint.\n- **Auto-Adjust**: Automatically update selected lights when schedule changes (only 
+    affects lights that are ON)\n- **Multiple Zones**: Create multiple instances with different helper pairs for different lighting zones\n"
+  domain: automation
+  homeassistant:
+    min_version: 2024.10.0
+
+  input:
+    output_helpers:
+      name: Output Helpers
+      icon: mdi:export
+      collapsed: false
+      input:
+        brightness_helper:
+          name: Brightness Helper
+          description: "`required` `entity`\n\nThe input_number helper to store brightness (0-100)."
+          selector:
+            entity:
+              filter:
+                - domain: [input_number]
+              multiple: false
+              reorder: false
+
+        color_temp_helper:
+          name: Color Temperature Helper
+          description: "`required` `entity`\n\nThe input_number helper to store color temperature (2000-6500K)."
+          selector:
+            entity:
+              filter:
+                - domain: [input_number]
+              multiple: false
+              reorder: false
+
+    direct_light_control:
+      name: Direct Light Control
+      icon: mdi:lightbulb-auto
+      collapsed: true
+      input:
+        target_lights:
+          name: Lights to Control
+          default: []
+          description: "`optional` `target`\n\nSelect lights to automatically adjust based on the adaptive lighting schedule.\n\nThese lights will be updated whenever the schedule changes.\n\nLeave empty if you only want to use the helper entities with other automations/blueprints."
+          selector:
+            target:
+              entity:
+                - domain: [light]
+
+        auto_adjust_enabled:
+          name: Enable Auto-Adjust
+          default: false
+          description: "`optional` `boolean`\n\nAutomatically update the selected lights when adaptive values change.\n\nOnly affects lights that are currently ON."
+          selector:
+            boolean: {}
+
+        auto_adjust_transition:
+          name: Auto-Adjust Transition
+          default: 300
+          description: "`optional` `number`\n\nTransition duration in seconds when auto-adjusting lights."
+          selector:
+            number:
+              min: 0.0
+              max: 600.0
+              step: 30.0
+              unit_of_measurement: s
+              mode: slider
+
+    time_settings_monday:
+      name: Time Settings - Monday
+      icon: mdi:calendar-today
+      collapsed: true
+      input:
+        wake_time_mon:
+          name: Wake Time
+          description: "`required` `time`\n\nTime when morning ramp should start (or wait for sunrise if enabled)."
+          default: "07:30:00"
+          selector: { time: {} }
+
+        morning_time_mon:
+          name: Morning Time
+          description: "`required` `time`\n\nTime when brightness/color should reach maximum values."
+          default: "09:00:00"
+          selector: { time: {} }
+
+        evening_time_mon:
+          name: Afternoon Ramp Start
+          description: "`required` `time`\n\nTime when afternoon ramp down should start (sunset-anchored ramp end can shift this)."
+          default: "18:30:00"
+          selector: { time: {} }
+
+        evening_flat_time_mon:
+          name: Evening Flat Start
+          description: "`required` `time`\n\nTime when afternoon ramp ends and evening flat (min values) begins (sunset-anchored ramp end can override this)."
+          default: "21:30:00"
+          selector: { time: {} }
+
+        sleep_time_mon:
+          name: Sleep Time
+          description: "`required` `time`\n\nTime when brightness/color should reach minimum values (evening flat ends; sleep ramp starts)."
+          default: "23:30:00"
+          selector: { time: {} }
+
+        night_time_mon:
+          name: Night Time
+          description: "`required` `time`\n\nTime when brightness/color should reach night values (lowest)."
+          default: "00:00:00"
+          selector: { time: {} }
+
+    time_settings_tuesday:
+      name: Time Settings - Tuesday
+      icon: mdi:calendar-today
+      collapsed: true
+      input:
+        wake_time_tue:
+          name: Wake Time
+          description: "`required` `time`\n\nTime when morning ramp should start (or wait for sunrise if enabled)."
+          default: "07:30:00"
+          selector: { time: {} }
+        morning_time_tue:
+          name: Morning Time
+          description: "`required` `time`\n\nTime when brightness/color should reach maximum values."
+          default: "09:00:00"
+          selector: { time: {} }
+        evening_time_tue:
+          name: Afternoon Ramp Start
+          description: "`required` `time`\n\nTime when afternoon ramp down should start (sunset-anchored ramp end can shift this)."
+          default: "18:30:00"
+          selector: { time: {} }
+        evening_flat_time_tue:
+          name: Evening Flat Start
+          description: "`required` `time`\n\nTime when afternoon ramp ends and evening flat (min values) begins (sunset-anchored ramp end can override this)."
+          default: "21:30:00"
+          selector: { time: {} }
+        sleep_time_tue:
+          name: Sleep Time
+          description: "`required` `time`\n\nTime when brightness/color should reach minimum values (evening flat ends; sleep ramp starts)."
+          default: "23:30:00"
+          selector: { time: {} }
+        night_time_tue:
+          name: Night Time
+          description: "`required` `time`\n\nTime when brightness/color should reach night values (lowest)."
+          default: "00:00:00"
+          selector: { time: {} }
+
+    time_settings_wednesday:
+      name: Time Settings - Wednesday
+      icon: mdi:calendar-today
+      collapsed: true
+      input:
+        wake_time_wed:
+          name: Wake Time
+          description: "`required` `time`\n\nTime when morning ramp should start (or wait for sunrise if enabled)."
+          default: "07:30:00"
+          selector: { time: {} }
+        morning_time_wed:
+          name: Morning Time
+          description: "`required` `time`\n\nTime when brightness/color should reach maximum values."
+          default: "09:00:00"
+          selector: { time: {} }
+        evening_time_wed:
+          name: Afternoon Ramp Start
+          description: "`required` `time`\n\nTime when afternoon ramp down should start (sunset-anchored ramp end can shift this)."
+          default: "18:30:00"
+          selector: { time: {} }
+        evening_flat_time_wed:
+          name: Evening Flat Start
+          description: "`required` `time`\n\nTime when afternoon ramp ends and evening flat (min values) begins (sunset-anchored ramp end can override this)."
+          default: "21:30:00"
+          selector: { time: {} }
+        sleep_time_wed:
+          name: Sleep Time
+          description: "`required` `time`\n\nTime when brightness/color should reach minimum values (evening flat ends; sleep ramp starts)."
+          default: "23:30:00"
+          selector: { time: {} }
+        night_time_wed:
+          name: Night Time
+          description: "`required` `time`\n\nTime when brightness/color should reach night values (lowest)."
+          default: "00:00:00"
+          selector: { time: {} }
+
+    time_settings_thursday:
+      name: Time Settings - Thursday
+      icon: mdi:calendar-today
+      collapsed: true
+      input:
+        wake_time_thu:
+          name: Wake Time
+          description: "`required` `time`\n\nTime when morning ramp should start (or wait for sunrise if enabled)."
+          default: "07:30:00"
+          selector: { time: {} }
+        morning_time_thu:
+          name: Morning Time
+          description: "`required` `time`\n\nTime when brightness/color should reach maximum values."
+          default: "09:00:00"
+          selector: { time: {} }
+        evening_time_thu:
+          name: Afternoon Ramp Start
+          description: "`required` `time`\n\nTime when afternoon ramp down should start (sunset-anchored ramp end can shift this)."
+          default: "18:30:00"
+          selector: { time: {} }
+        evening_flat_time_thu:
+          name: Evening Flat Start
+          description: "`required` `time`\n\nTime when afternoon ramp ends and evening flat (min values) begins (sunset-anchored ramp end can override this)."
+          default: "21:30:00"
+          selector: { time: {} }
+        sleep_time_thu:
+          name: Sleep Time
+          description: "`required` `time`\n\nTime when brightness/color should reach minimum values (evening flat ends; sleep ramp starts)."
+          default: "23:30:00"
+          selector: { time: {} }
+        night_time_thu:
+          name: Night Time
+          description: "`required` `time`\n\nTime when brightness/color should reach night values (lowest)."
+          default: "00:00:00"
+          selector: { time: {} }
+
+    time_settings_friday:
+      name: Time Settings - Friday
+      icon: mdi:calendar-today
+      collapsed: true
+      input:
+        wake_time_fri:
+          name: Wake Time
+          description: "`required` `time`\n\nTime when morning ramp should start (or wait for sunrise if enabled)."
+          default: "07:30:00"
+          selector: { time: {} }
+        morning_time_fri:
+          name: Morning Time
+          description: "`required` `time`\n\nTime when brightness/color should reach maximum values."
+          default: "09:00:00"
+          selector: { time: {} }
+        evening_time_fri:
+          name: Afternoon Ramp Start
+          description: "`required` `time`\n\nTime when afternoon ramp down should start (sunset-anchored ramp end can shift this)."
+          default: "18:30:00"
+          selector: { time: {} }
+        evening_flat_time_fri:
+          name: Evening Flat Start
+          description: "`required` `time`\n\nTime when afternoon ramp ends and evening flat (min values) begins (sunset-anchored ramp end can override this)."
+          default: "21:30:00"
+          selector: { time: {} }
+        sleep_time_fri:
+          name: Sleep Time
+          description: "`required` `time`\n\nTime when brightness/color should reach minimum values (evening flat ends; sleep ramp starts)."
+          default: "23:30:00"
+          selector: { time: {} }
+        night_time_fri:
+          name: Night Time
+          description: "`required` `time`\n\nTime when brightness/color should reach night values (lowest)."
+          default: "00:00:00"
+          selector: { time: {} }
+
+    time_settings_saturday:
+      name: Time Settings - Saturday
+      icon: mdi:calendar-today
+      collapsed: true
+      input:
+        wake_time_sat:
+          name: Wake Time
+          description: "`required` `time`\n\nTime when morning ramp should start (or wait for sunrise if enabled)."
+          default: "08:30:00"
+          selector: { time: {} }
+        morning_time_sat:
+          name: Morning Time
+          description: "`required` `time`\n\nTime when brightness/color should reach maximum values."
+          default: "10:00:00"
+          selector: { time: {} }
+        evening_time_sat:
+          name: Afternoon Ramp Start
+          description: "`required` `time`\n\nTime when afternoon ramp down should start (sunset-anchored ramp end can shift this)."
+          default: "18:30:00"
+          selector: { time: {} }
+        evening_flat_time_sat:
+          name: Evening Flat Start
+          description: "`required` `time`\n\nTime when afternoon ramp ends and evening flat (min values) begins (sunset-anchored ramp end can override this)."
+          default: "22:00:00"
+          selector: { time: {} }
+        sleep_time_sat:
+          name: Sleep Time
+          description: "`required` `time`\n\nTime when brightness/color should reach minimum values (evening flat ends; sleep ramp starts)."
+          default: "23:30:00"
+          selector: { time: {} }
+        night_time_sat:
+          name: Night Time
+          description: "`required` `time`\n\nTime when brightness/color should reach night values (lowest)."
+          default: "00:00:00"
+          selector: { time: {} }
+
+    time_settings_sunday:
+      name: Time Settings - Sunday
+      icon: mdi:calendar-today
+      collapsed: true
+      input:
+        wake_time_sun:
+          name: Wake Time
+          description: "`required` `time`\n\nTime when morning ramp should start (or wait for sunrise if enabled)."
+          default: "08:30:00"
+          selector: { time: {} }
+        morning_time_sun:
+          name: Morning Time
+          description: "`required` `time`\n\nTime when brightness/color should reach maximum values."
+          default: "10:00:00"
+          selector: { time: {} }
+        evening_time_sun:
+          name: Afternoon Ramp Start
+          description: "`required` `time`\n\nTime when afternoon ramp down should start (sunset-anchored ramp end can shift this)."
+          default: "18:30:00"
+          selector: { time: {} }
+        evening_flat_time_sun:
+          name: Evening Flat Start
+          description: "`required` `time`\n\nTime when afternoon ramp ends and evening flat (min values) begins (sunset-anchored ramp end can override this)."
+          default: "22:00:00"
+          selector: { time: {} }
+        sleep_time_sun:
+          name: Sleep Time
+          description: "`required` `time`\n\nTime when brightness/color should reach minimum values (evening flat ends; sleep ramp starts)."
+          default: "23:30:00"
+          selector: { time: {} }
+        night_time_sun:
+          name: Night Time
+          description: "`required` `time`\n\nTime when brightness/color should reach night values (lowest)."
+          default: "00:00:00"
+          selector: { time: {} }
+
+    brightness_settings:
+      name: Brightness Values
+      icon: mdi:brightness-percent
+      collapsed: true
+      input:
+        max_brightness:
+          name: Maximum Brightness
+          default: 100
+          description: "`required` `number`\n\nBrightness at morning time (daytime maximum)."
+          selector:
+            number:
+              min: 1.0
+              max: 100.0
+              step: 5.0
+              unit_of_measurement: "%"
+              mode: slider
+        min_brightness:
+          name: Minimum Brightness
+          default: 50
+          description: "`required` `number`\n\nBrightness at sleep time (evening flat)."
+          selector:
+            number:
+              min: 1.0
+              max: 100.0
+              step: 5.0
+              unit_of_measurement: "%"
+              mode: slider
+        night_brightness:
+          name: Night Brightness
+          default: 25
+          description: "`required` `number`\n\nBrightness at night time (lowest)."
+          selector:
+            number:
+              min: 1.0
+              max: 100.0
+              step: 5.0
+              unit_of_measurement: "%"
+              mode: slider
+
+    color_temp_settings:
+      name: Color Temperature Values
+      icon: mdi:thermometer
+      collapsed: true
+      input:
+        max_color_temp:
+          name: Maximum Color Temperature
+          default: 4000
+          description: "`required` `number`\n\nColor temperature at morning time (coolest/daylight)."
+          selector:
+            number:
+              min: 2000.0
+              max: 6500.0
+              step: 50.0
+              unit_of_measurement: K
+              mode: slider
+        min_color_temp:
+          name: Minimum Color Temperature
+          default: 2700
+          description: "`required` `number`\n\nColor temperature at sleep time (evening flat start)."
+          selector:
+            number:
+              min: 2000.0
+              max: 6500.0
+              step: 50.0
+              unit_of_measurement: K
+              mode: slider
+        night_color_temp:
+          name: Night Color Temperature
+          default: 2200
+          description: "`required` `number`\n\nColor temperature at night time (warmest)."
+          selector:
+            number:
+              min: 2000.0
+              max: 6500.0
+              step: 50.0
+              unit_of_measurement: K
+              mode: slider
+
+    sun_settings_brightness:
+      name: Sun Settings - Brightness
+      icon: mdi:white-balance-sunny
+      collapsed: true
+      input:
+        brightness_use_sunrise:
+          name: Wait for Sunrise
+          default: false
+          description: "`optional` `boolean`\n\nDon't start morning ramp until sunrise (if sunrise is after wake time)."
+          selector: { boolean: {} }
+        brightness_use_sunset:
+          name: Finish Afternoon Ramp at Sunset
+          default: false
+          description: "`optional` `boolean`\n\nShift the afternoon ramp so it ends at sunset (earlier in winter, later in summer), subject to sleep-time guardrails."
+          selector: { boolean: {} }
+
+    sun_settings_color:
+      name: Sun Settings - Color Temperature
+      icon: mdi:theme-light-dark
+      collapsed: true
+      input:
+        color_use_sunrise:
+          name: Wait for Sunrise
+          default: true
+          description: "`optional` `boolean`\n\nDon't start morning ramp until sunrise (if sunrise is after wake time)."
+          selector: { boolean: {} }
+        color_use_sunset:
+          name: Finish Afternoon Ramp at Sunset
+          default: true
+          description: "`optional` `boolean`\n\nShift the afternoon ramp so it ends at sunset (earlier in winter, later in summer), subject to sleep-time guardrails."
+          selector: { boolean: {} }
+
+    sun_offsets:
+      name: Sun Offsets
+      icon: mdi:sun-clock
+      collapsed: true
+      input:
+        sunrise_offset:
+          name: Sunrise Offset
+          default: 0
+          description: "`optional` `number`\n\nMinutes to offset from sunrise. Positive = later, negative = earlier."
+          selector:
+            number:
+              min: -120.0
+              max: 120.0
+              step: 15.0
+              unit_of_measurement: min
+              mode: slider
+        sunset_offset:
+          name: Sunset Offset
+          default: 0
+          description: "`optional` `number`\n\nMinutes to offset from sunset. Positive = later, negative = earlier."
+          selector:
+            number:
+              min: -120.0
+              max: 120.0
+              step: 15.0
+              unit_of_measurement: min
+              mode: slider
+
+variables:
+  brightness_helper: !input brightness_helper
+  color_temp_helper: !input color_temp_helper
+  target_lights: !input target_lights
+  auto_adjust_enabled: !input auto_adjust_enabled
+  auto_adjust_transition: !input auto_adjust_transition
+
+  has_light_target: >-
+    {{ target_lights.entity_id | default([]) | length > 0
+       or target_lights.device_id | default([]) | length > 0
+       or target_lights.area_id | default([]) | length > 0 }}
+
+  light_entities: >-
+    {% set ns = namespace(entities=[]) %}
+    {% if target_lights.entity_id is defined and target_lights.entity_id | length > 0 %}
+      {% if target_lights.entity_id is string %}
+        {% set ns.entities = [target_lights.entity_id] %}
+      {% else %}
+        {% set ns.entities = target_lights.entity_id %}
+      {% endif %}
+    {% elif target_lights.device_id is defined and target_lights.device_id | length > 0 %}
+      {% set devices = [target_lights.device_id] if target_lights.device_id is string else target_lights.device_id %}
+      {% for device in devices %}
+        {% set ns.entities = ns.entities + device_entities(device) | select('match', '^light\.') | list %}
+      {% endfor %}
+    {% elif target_lights.area_id is defined and target_lights.area_id | length > 0 %}
+      {% set areas = [target_lights.area_id] if target_lights.area_id is string else target_lights.area_id %}
+      {% for area in areas %}
+        {% set ns.entities = ns.entities + area_entities(area) | select('match', '^light\.') | list %}
+      {% endfor %}
+    {% endif %}
+    {{ ns.entities }}
+
+  max_brightness: !input max_brightness
+  min_brightness: !input min_brightness
+  night_brightness: !input night_brightness
+  max_color_temp: !input max_color_temp
+  min_color_temp: !input min_color_temp
+  night_color_temp: !input night_color_temp
+
+  brightness_use_sunrise: !input brightness_use_sunrise
+  brightness_use_sunset: !input brightness_use_sunset
+  color_use_sunrise: !input color_use_sunrise
+  color_use_sunset: !input color_use_sunset
+  sunrise_offset: !input sunrise_offset
+  sunset_offset: !input sunset_offset
+
+  # Day inputs
+  wake_time_mon: !input wake_time_mon
+  morning_time_mon: !input morning_time_mon
+  evening_time_mon: !input evening_time_mon
+  evening_flat_time_mon: !input evening_flat_time_mon
+  sleep_time_mon: !input sleep_time_mon
+  night_time_mon: !input night_time_mon
+
+  wake_time_tue: !input wake_time_tue
+  morning_time_tue: !input morning_time_tue
+  evening_time_tue: !input evening_time_tue
+  evening_flat_time_tue: !input evening_flat_time_tue
+  sleep_time_tue: !input sleep_time_tue
+  night_time_tue: !input night_time_tue
+
+  wake_time_wed: !input wake_time_wed
+  morning_time_wed: !input morning_time_wed
+  evening_time_wed: !input evening_time_wed
+  evening_flat_time_wed: !input evening_flat_time_wed
+  sleep_time_wed: !input sleep_time_wed
+  night_time_wed: !input night_time_wed
+
+  wake_time_thu: !input wake_time_thu
+  morning_time_thu: !input morning_time_thu
+  evening_time_thu: !input evening_time_thu
+  evening_flat_time_thu: !input evening_flat_time_thu
+  sleep_time_thu: !input sleep_time_thu
+  night_time_thu: !input night_time_thu
+
+  wake_time_fri: !input wake_time_fri
+  morning_time_fri: !input morning_time_fri
+  evening_time_fri: !input evening_time_fri
+  evening_flat_time_fri: !input evening_flat_time_fri
+  sleep_time_fri: !input sleep_time_fri
+  night_time_fri: !input night_time_fri
+
+  wake_time_sat: !input wake_time_sat
+  morning_time_sat: !input morning_time_sat
+  evening_time_sat: !input evening_time_sat
+  evening_flat_time_sat: !input evening_flat_time_sat
+  sleep_time_sat: !input sleep_time_sat
+  night_time_sat: !input night_time_sat
+
+  wake_time_sun: !input wake_time_sun
+  morning_time_sun: !input morning_time_sun
+  evening_time_sun: !input evening_time_sun
+  evening_flat_time_sun: !input evening_flat_time_sun
+  sleep_time_sun: !input sleep_time_sun
+  night_time_sun: !input night_time_sun
+
+  # Today selection via list indexing
+  day: "{{ now().weekday() }}"
+  wake_time: "{{ [wake_time_mon, wake_time_tue, wake_time_wed, wake_time_thu, wake_time_fri, wake_time_sat, wake_time_sun][day] }}"
+  morning_time: "{{ [morning_time_mon, morning_time_tue, morning_time_wed, morning_time_thu, morning_time_fri, morning_time_sat, morning_time_sun][day] }}"
+  evening_time: "{{ [evening_time_mon, evening_time_tue, evening_time_wed, evening_time_thu, evening_time_fri, evening_time_sat, evening_time_sun][day] }}"
+  evening_flat_time: "{{ [evening_flat_time_mon, evening_flat_time_tue, evening_flat_time_wed, evening_flat_time_thu, evening_flat_time_fri, evening_flat_time_sat, evening_flat_time_sun][day] }}"
+  sleep_time: "{{ [sleep_time_mon, sleep_time_tue, sleep_time_wed, sleep_time_thu, sleep_time_fri, sleep_time_sat, sleep_time_sun][day] }}"
+  night_time: "{{ [night_time_mon, night_time_tue, night_time_wed, night_time_thu, night_time_fri, night_time_sat, night_time_sun][day] }}"
+
+  # Base timestamps
+  now_ts: "{{ now().timestamp() }}"
+  today_midnight_ts: "{{ today_at('00:00').timestamp() }}"
+  next_midnight_ts: "{{ (today_at('00:00').timestamp() + 86400) }}"
+
+  wake_ts: "{{ today_at(wake_time).timestamp() }}"
+  morning_ts: "{{ today_at(morning_time).timestamp() }}"
+  evening_ts: "{{ today_at(evening_time).timestamp() }}"
+  evening_flat_ts_raw: "{{ today_at(evening_flat_time).timestamp() }}"
+  sleep_ts_raw: "{{ today_at(sleep_time).timestamp() }}"
+
+  # Sun times (with offsets)
+  next_sunrise_ts: "{{ (state_attr('sun.sun', 'next_rising') | as_datetime).timestamp() }}"
+  next_sunset_ts: "{{ (state_attr('sun.sun', 'next_setting') | as_datetime).timestamp() }}"
+
+  today_sunrise_ts: >-
+    {% set nsr = next_sunrise_ts | float %}
+    {% if nsr < next_midnight_ts | float %}
+      {{ nsr }}
+    {% else %}
+      {{ nsr - 86400 }}
+    {% endif %}
+
+  today_sunset_ts: >-
+    {% set nss = next_sunset_ts | float %}
+    {% if nss < next_midnight_ts | float %}
+      {{ nss }}
+    {% else %}
+      {{ nss - 86400 }}
+    {% endif %}
+
+  sunrise_ts: "{{ (today_sunrise_ts | float) + (sunrise_offset | int * 60) }}"
+  sunset_ts: "{{ (today_sunset_ts  | float) + (sunset_offset  | int * 60) }}"
+
+  # Morning ramp starts (sunrise-aware)
+  morning_start_bri_ts: >-
+    {% if brightness_use_sunrise %}
+      {{ [wake_ts | float, sunrise_ts | float] | max }}
+    {% else %}
+      {{ wake_ts | float }}
+    {% endif %}
+
+  morning_start_col_ts: >-
+    {% if color_use_sunrise %}
+      {{ [wake_ts | float, sunrise_ts | float] | max }}
+    {% else %}
+      {{ wake_ts | float }}
+    {% endif %}
+
+  # Afternoon ramp timing: anchor ramp END to sunset (earlier in winter, later in summer)
+  afternoon_start_bri_ts: >-
+    {% set es = evening_ts | float %}
+    {% set ef = evening_flat_ts_raw | float %}
+    {% set dur = ef - es %}
+    {% set ss = sunset_ts | float %}
+    {% if brightness_use_sunset and dur > 0 %}
+      {{ ss - dur }}
+    {% else %}
+      {{ es }}
+    {% endif %}
+
+  afternoon_start_col_ts: >-
+    {% set es = evening_ts | float %}
+    {% set ef = evening_flat_ts_raw | float %}
+    {% set dur = ef - es %}
+    {% set ss = sunset_ts | float %}
+    {% if color_use_sunset and dur > 0 %}
+      {{ ss - dur }}
+    {% else %}
+      {{ es }}
+    {% endif %}
+
+  # Guardrails + effective ramp end (evening flat start):
+  # afternoon_start <= evening_flat <= sleep
+  evening_flat_bri_ts: >-
+    {% set es = evening_ts | float %}
+    {% set ef = evening_flat_ts_raw | float %}
+    {% set s  = sleep_ts_raw | float %}
+    {% set dur = ef - es %}
+    {% set ss = sunset_ts | float %}
+
+    {% if brightness_use_sunset and dur > 0 %}
+      {% set target_end = ss %}
+    {% else %}
+      {% set target_end = ef %}
+    {% endif %}
+
+    {% set a = afternoon_start_bri_ts | float %}
+    {{ [a, [target_end, s] | min] | max }}
+
+  evening_flat_col_ts: >-
+    {% set es = evening_ts | float %}
+    {% set ef = evening_flat_ts_raw | float %}
+    {% set s  = sleep_ts_raw | float %}
+    {% set dur = ef - es %}
+    {% set ss = sunset_ts | float %}
+
+    {% if color_use_sunset and dur > 0 %}
+      {% set target_end = ss %}
+    {% else %}
+      {% set target_end = ef %}
+    {% endif %}
+
+    {% set a = afternoon_start_col_ts | float %}
+    {{ [a, [target_end, s] | min] | max }}
+
+  # Guardrail: sleep must be >= evening flat start
+  sleep_ts: >-
+    {% set s = sleep_ts_raw | float %}
+    {% set e = evening_flat_bri_ts | float %}
+    {{ [s, e] | max }}
+
+  # Night time may be after midnight; normalize to be after sleep_ts
+  night_ts: >-
+    {% set n = today_at(night_time).timestamp() %}
+    {% if n <= (sleep_ts | float) %}
+      {{ n + 86400 }}
+    {% else %}
+      {{ n }}
+    {% endif %}
+
+  # Final computed outputs
+  calculated_brightness: >-
+    {% set t  = now_ts | float %}
+    {% set ms = morning_start_bri_ts | float %}
+    {% set me = morning_ts | float %}
+    {% set as = afternoon_start_bri_ts | float %}
+    {% set ae = evening_flat_bri_ts | float %}
+    {% set st = sleep_ts | float %}
+    {% set nt = night_ts | float %}
+
+    {% if t < ms %}
+      {{ night_brightness | int }}
+    {% elif t < me %}
+      {% set denom = (me - ms) %}
+      {% set p = 1 if denom <= 0 else (t - ms) / denom %}
+      {% set p = [0, [1, p] | min] | max %}
+      {{ (night_brightness + (max_brightness - night_brightness) * p) | round(0) | int }}
+    {% elif t < as %}
+      {{ max_brightness | int }}
+    {% elif t < ae %}
+      {% set denom = (ae - as) %}
+      {% set p = 1 if denom <= 0 else (t - as) / denom %}
+      {% set p = [0, [1, p] | min] | max %}
+      {{ (max_brightness - (max_brightness - min_brightness) * p) | round(0) | int }}
+    {% elif t < st %}
+      {{ min_brightness | int }}
+    {% elif t < nt %}
+      {% set denom = (nt - st) %}
+      {% set p = 1 if denom <= 0 else (t - st) / denom %}
+      {% set p = [0, [1, p] | min] | max %}
+      {{ (min_brightness - (min_brightness - night_brightness) * p) | round(0) | int }}
+    {% else %}
+      {{ night_brightness | int }}
+    {% endif %}
+
+  calculated_color_temp: >-
+    {% set t  = now_ts | float %}
+    {% set ms = morning_start_col_ts | float %}
+    {% set me = morning_ts | float %}
+    {% set as = afternoon_start_col_ts | float %}
+    {% set ae = evening_flat_col_ts | float %}
+    {% set st = sleep_ts | float %}
+    {% set nt = night_ts | float %}
+
+    {% if t < ms %}
+      {{ night_color_temp | int }}
+    {% elif t < me %}
+      {% set denom = (me - ms) %}
+      {% set p = 1 if denom <= 0 else (t - ms) / denom %}
+      {% set p = [0, [1, p] | min] | max %}
+      {{ (night_color_temp + (max_color_temp - night_color_temp) * p) | round(0) | int }}
+    {% elif t < as %}
+      {{ max_color_temp | int }}
+    {% elif t < ae %}
+      {% set denom = (ae - as) %}
+      {% set p = 1 if denom <= 0 else (t - as) / denom %}
+      {% set p = [0, [1, p] | min] | max %}
+      {{ (max_color_temp - (max_color_temp - min_color_temp) * p) | round(0) | int }}
+    {% elif t < st %}
+      {{ min_color_temp | int }}
+    {% elif t < nt %}
+      {% set denom = (nt - st) %}
+      {% set p = 1 if denom <= 0 else (t - st) / denom %}
+      {% set p = [0, [1, p] | min] | max %}
+      {{ (min_color_temp - (min_color_temp - night_color_temp) * p) | round(0) | int }}
+    {% else %}
+      {{ night_color_temp | int }}
+    {% endif %}
+
+triggers:
+  - trigger: time_pattern
+    minutes: /5
+  - trigger: state
+    entity_id: sun.sun
+  - trigger: homeassistant
+    event: start
+
+actions:
+  - action: input_number.set_value
+    target:
+      entity_id: "{{ brightness_helper }}"
+    data:
+      value: "{{ calculated_brightness }}"
+
+  - action: input_number.set_value
+    target:
+      entity_id: "{{ color_temp_helper }}"
+    data:
+      value: "{{ calculated_color_temp }}"
+
+  - if:
+      - "{{ auto_adjust_enabled and has_light_target }}"
+    then:
+      - repeat:
+          for_each: "{{ light_entities }}"
+          sequence:
+            - if:
+                - "{{ is_state(repeat.item, 'on') }}"
+              then:
+                - action: light.turn_on
+                  target:
+                    entity_id: "{{ repeat.item }}"
+                  data:
+                    brightness_pct: "{{ calculated_brightness }}"
+                    color_temp_kelvin: "{{ calculated_color_temp }}"
+                    transition: "{{ auto_adjust_transition }}"
