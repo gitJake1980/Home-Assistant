@@ -21,12 +21,12 @@ blueprint:
     the configured wake time\n- **Morning → Evening:** Flat daytime values\n- **Evening
     → Sleep:** Ramp down to minimum values, optionally starting at sunset\n- **Sleep
     → Night:** Ramp down to night values\n\nEach day of the week has its own time
-    settings, allowing different schedules for weekdays versus weekends.\n\n## Sunrise
-    Tracking Examples\n\nSummer example: (Sunrise at 05:00, wake at 07:30, morning
-    at 09:00.) Ramp 07:30 → 09:00.\n\nWinter example: (Sunrise at 08:47, wake at 07:30,
+    settings, allowing different schedules for weekdays versus weekends.\n\n### Examples
+    With Sunrise Tracking Enabled\n\n- Summer: (Sunrise at 05:00, wake at 07:30, morning
+    at 09:00.) Ramp 07:30 → 09:00.\n\n- Winter: (Sunrise at 08:47, wake at 07:30,
     morning at 09:00.) Ramp 08:47 → 09:00.\n\nBrightness and color temperature values
     are shared across all days.\n\n## Example Default Weekday Schedule\n\n| Time        |
-    Brightness        | Color Temperature | Phase        |\n|-------------|-------------------|-------------------|=-------------|\n|
+    Brightness        | Color Temperature | Phase        |\n|-------------|-------------------|-------------------|--------------|\n|
     00:00-07:30 | 25 percent        | 2200 K            | Night (flat) |\n| 07:30-09:00
     | 25 to 100 percent | 2200 to 4000 K    | Morning ramp |\n| 09:00-18:30 | 100
     percent       | 4000 K            | Day (flat)   |\n| 18:30-23:30 | 100 to 50
@@ -265,7 +265,7 @@ blueprint:
       input:
         wake_time_mon:
           name: Wake Time
-          default: 07:30:00
+          default: 07:00:00
           selector:
             time: {}
         morning_time_mon:
@@ -275,12 +275,12 @@ blueprint:
             time: {}
         evening_time_mon:
           name: Afternoon Ramp Start
-          default: '18:30:00'
+          default: '17:00:00'
           selector:
             time: {}
         evening_flat_time_mon:
           name: Evening Flat Start
-          default: '21:30:00'
+          default: '18:00:00'
           selector:
             time: {}
         sleep_time_mon:
@@ -300,7 +300,7 @@ blueprint:
       input:
         wake_time_tue:
           name: Wake Time
-          default: 07:30:00
+          default: 07:00:00
           selector:
             time: {}
         morning_time_tue:
@@ -310,12 +310,12 @@ blueprint:
             time: {}
         evening_time_tue:
           name: Afternoon Ramp Start
-          default: '18:30:00'
+          default: '17:00:00'
           selector:
             time: {}
         evening_flat_time_tue:
           name: Evening Flat Start
-          default: '21:30:00'
+          default: '18:00:00'
           selector:
             time: {}
         sleep_time_tue:
@@ -335,7 +335,7 @@ blueprint:
       input:
         wake_time_wed:
           name: Wake Time
-          default: 07:30:00
+          default: 07:00:00
           selector:
             time: {}
         morning_time_wed:
@@ -345,12 +345,12 @@ blueprint:
             time: {}
         evening_time_wed:
           name: Afternoon Ramp Start
-          default: '18:30:00'
+          default: '17:00:00'
           selector:
             time: {}
         evening_flat_time_wed:
           name: Evening Flat Start
-          default: '21:30:00'
+          default: '18:00:00'
           selector:
             time: {}
         sleep_time_wed:
@@ -370,7 +370,7 @@ blueprint:
       input:
         wake_time_thu:
           name: Wake Time
-          default: 07:30:00
+          default: 07:00:00
           selector:
             time: {}
         morning_time_thu:
@@ -380,12 +380,12 @@ blueprint:
             time: {}
         evening_time_thu:
           name: Afternoon Ramp Start
-          default: '18:30:00'
+          default: '17:00:00'
           selector:
             time: {}
         evening_flat_time_thu:
           name: Evening Flat Start
-          default: '21:30:00'
+          default: '18:00:00'
           selector:
             time: {}
         sleep_time_thu:
@@ -405,7 +405,7 @@ blueprint:
       input:
         wake_time_fri:
           name: Wake Time
-          default: 07:30:00
+          default: 07:00:00
           selector:
             time: {}
         morning_time_fri:
@@ -415,12 +415,12 @@ blueprint:
             time: {}
         evening_time_fri:
           name: Afternoon Ramp Start
-          default: '18:30:00'
+          default: '17:00:00'
           selector:
             time: {}
         evening_flat_time_fri:
           name: Evening Flat Start
-          default: '21:30:00'
+          default: '18:00:00'
           selector:
             time: {}
         sleep_time_fri:
@@ -440,7 +440,7 @@ blueprint:
       input:
         wake_time_sat:
           name: Wake Time
-          default: 08:30:00
+          default: 08:00:00
           selector:
             time: {}
         morning_time_sat:
@@ -450,12 +450,12 @@ blueprint:
             time: {}
         evening_time_sat:
           name: Afternoon Ramp Start
-          default: '18:30:00'
+          default: '17:00:00'
           selector:
             time: {}
         evening_flat_time_sat:
           name: Evening Flat Start
-          default: '22:00:00'
+          default: '18:00:00'
           selector:
             time: {}
         sleep_time_sat:
@@ -475,7 +475,7 @@ blueprint:
       input:
         wake_time_sun:
           name: Wake Time
-          default: 08:30:00
+          default: 08:00:00
           selector:
             time: {}
         morning_time_sun:
@@ -485,12 +485,12 @@ blueprint:
             time: {}
         evening_time_sun:
           name: Afternoon Ramp Start
-          default: '18:30:00'
+          default: '17:00:00'
           selector:
             time: {}
         evening_flat_time_sun:
           name: Evening Flat Start
-          default: '22:00:00'
+          default: '18:00:00'
           selector:
             time: {}
         sleep_time_sun:
@@ -505,6 +505,30 @@ blueprint:
             time: {}
   source_url: https://github.com/gitJake1980/Home-Assistant/blob/main/blueprints/automation/jacobtimmons/adaptive-lighting-schedule-renewal.yaml
 variables:
+    on_target_light_entities: >-
+    {% set ids = [] %}
+    {% if target_lights is mapping %}
+      {% if target_lights.entity_id is defined and target_lights.entity_id %}
+        {% set ids = ids + (target_lights.entity_id if target_lights.entity_id is list else [target_lights.entity_id]) %}
+      {% endif %}
+      {% if target_lights.device_id is defined and target_lights.device_id %}
+        {% for d in (target_lights.device_id if target_lights.device_id is list else [target_lights.device_id]) %}
+          {% set ids = ids + device_entities(d) %}
+        {% endfor %}
+      {% endif %}
+      {% if target_lights.area_id is defined and target_lights.area_id %}
+        {% for a in (target_lights.area_id if target_lights.area_id is list else [target_lights.area_id]) %}
+          {% set ids = ids + area_entities(a) %}
+        {% endfor %}
+      {% endif %}
+    {% endif %}
+
+    {{ expand(ids)
+        | selectattr('domain', 'eq', 'light')
+        | selectattr('state', 'eq', 'on')
+        | map(attribute='entity_id')
+        | unique
+        | list }}
   brightness_helper: !input brightness_helper
   color_temp_helper: !input color_temp_helper
   enabled_helper: !input enabled_helper
@@ -671,12 +695,17 @@ actions:
     - if:
       - '{{ auto_adjust_enabled }}'
       then:
-      - service: light.turn_on
-        target: '{{ target_lights }}'
-        data:
-          brightness_pct: '{{ calculated_brightness }}'
-          color_temp_kelvin: '{{ calculated_color_temp }}'
-          transition: '{{ auto_adjust_transition }}'
+      - choose:
+        - conditions:
+            - "{{ on_target_light_entities | length > 0 }}"
+          sequence:
+            - service: light.turn_on
+              target:
+                entity_id: "{{ on_target_light_entities }}"
+              data:
+                brightness_pct: '{{ calculated_brightness }}'
+                color_temp_kelvin: '{{ calculated_color_temp }}'
+                transition: '{{ auto_adjust_transition }}'
   - conditions:
     - '{{ not adaptive_enabled }}'
     - '{{ disable_scene is string and disable_scene | length > 0 }}'
