@@ -510,6 +510,25 @@ blueprint:
   source_url: https://github.com/gitJake1980/Home-Assistant/blob/main/blueprints/automation/jacobtimmons/adaptive-lighting-schedule-renewal.yaml
 
 variables:
+  brightness_helper: !input brightness_helper
+  color_temp_helper: !input color_temp_helper
+  enabled_helper: !input enabled_helper
+  disable_scene: !input disable_scene
+  target_lights: !input target_lights
+  auto_adjust_enabled: !input auto_adjust_enabled
+  auto_adjust_transition: !input auto_adjust_transition
+  max_brightness: !input max_brightness
+  min_brightness: !input min_brightness
+  night_brightness: !input night_brightness
+  max_color_temp: !input max_color_temp
+  min_color_temp: !input min_color_temp
+  night_color_temp: !input night_color_temp
+  use_sunrise: !input use_sunrise
+  use_sunset: !input use_sunset
+  sunrise_offset: !input sunrise_offset
+  sunset_offset: !input sunset_offset
+
+  # Resolve the target selector into entity_ids, then keep only lights that are ON.
   on_target_light_entities: >-
     {% set ids = [] %}
     {% if target_lights is mapping %}
@@ -529,29 +548,11 @@ variables:
     {% endif %}
 
     {{ expand(ids)
-        | selectattr('domain', 'eq', 'light')
         | selectattr('state', 'eq', 'on')
         | map(attribute='entity_id')
+        | select('match', '^light\\.')
         | unique
         | list }}
-
-  brightness_helper: !input brightness_helper
-  color_temp_helper: !input color_temp_helper
-  enabled_helper: !input enabled_helper
-  disable_scene: !input disable_scene
-  target_lights: !input target_lights
-  auto_adjust_enabled: !input auto_adjust_enabled
-  auto_adjust_transition: !input auto_adjust_transition
-  max_brightness: !input max_brightness
-  min_brightness: !input min_brightness
-  night_brightness: !input night_brightness
-  max_color_temp: !input max_color_temp
-  min_color_temp: !input min_color_temp
-  night_color_temp: !input night_color_temp
-  use_sunrise: !input use_sunrise
-  use_sunset: !input use_sunset
-  sunrise_offset: !input sunrise_offset
-  sunset_offset: !input sunset_offset
 
   wake_time_mon: !input wake_time_mon
   morning_time_mon: !input morning_time_mon
@@ -746,14 +747,6 @@ action:
                       - condition: template
                         value_template: "{{ on_target_light_entities | length > 0 }}"
                     sequence:
-                    
-                      - service: persistent_notification.create
-                        data:
-                            title: "Adaptive lighting debug"
-                            message: "On lights: {{ on_target_light_entities }}"
-
-                    
-                    
                       - service: light.turn_on
                         target:
                           entity_id: "{{ on_target_light_entities }}"
