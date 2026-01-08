@@ -1,5 +1,5 @@
-- id: '1767000915656'
-  alias: Adaptive Lighting Scheduler (v2) Hue
+- id: '1767664459099'
+  alias: Adaptive Lighting Scheduler (v2) (hue)
   description: ''
   use_blueprint:
     path: gitJake1980/adaptive-lighting-schedule-renewal.yaml
@@ -7,34 +7,33 @@
       brightness_helper: input_number.adaptive_brightness
       color_temp_helper: input_number.adaptive_color_temp
       enabled_helper: input_boolean.toggle_adaptive_lighting
+      auto_adjust_enabled: true
       target_lights:
         entity_id:
-        - light.bedroom_sconce_1
-        - light.bedroom_sconce_2
         - light.ceiling_lamp_1
         - light.ceiling_lamp_2
         - light.ceiling_lamp_3
         - light.ceiling_lamp_4
-        - light.kitchen_light_strip
-        - light.foyer_1
-        - light.foyer_2
         - light.desk_strip_1
         - light.desk_lamp
+        - light.kitchen_light_strip
         - light.front_closet
+        - light.bedroom_sconce_1
+        - light.bedroom_sconce_2
+        - light.foyer_1
+        - light.foyer_2
+        - light.gigabyte_geforce_rtx_4070_ti_gaming_oc
+        - light.nzxt_smart_device_v2
+        - light.z690_aorus_elite_ax_ddr4
         - light.hallway
-        - light.openrgb
-      auto_adjust_enabled: true
-      night_brightness: 10
-      night_color_temp: 2500
-      min_color_temp: 3000
-- id: '1767001075413'
-  alias: Adaptive Lighting Scheduler (v2) torchier
+- id: '1767664637876'
+  alias: Adaptive Lighting Scheduler (v2)
   description: ''
   use_blueprint:
     path: gitJake1980/adaptive-lighting-schedule-renewal.yaml
     input:
-      brightness_helper: input_number.adaptive_brightness_torchier
-      color_temp_helper: input_number.adaptive_color_temp_torchier
+      brightness_helper: input_number.adaptive_brightness_torchiere
+      color_temp_helper: input_number.adaptive_color_temp_torchiere
       enabled_helper: input_boolean.toggle_adaptive_lighting
       target_lights:
         entity_id:
@@ -43,7 +42,3 @@
         - light.bedroom_floor_lamp_1
         - light.bedroom_floor_lamp_2
       auto_adjust_enabled: true
-      night_brightness: 10
-      night_color_temp: 2000
-      min_color_temp: 2500
-      max_color_temp: 3500

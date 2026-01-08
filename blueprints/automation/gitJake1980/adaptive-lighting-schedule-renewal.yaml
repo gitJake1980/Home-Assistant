@@ -1,62 +1,11 @@
 blueprint:
   name: Adaptive Lighting Scheduler (v2)
   author: danielpetrovic + revisions
-  description: "# Adaptive Lighting Scheduler\n\nThis blueprint calculates optimal
-    brightness and color temperature values throughout the day and stores them in
-    input_number helpers for use by other automations and blueprints.\n\n## Key Features\n\n-
-    **Schedule-Based:** Configure different times for each day of the week (weekdays
-    vs weekends)\n- **Sun Tracking:** Optional sunrise and sunset awareness for natural
-    transitions\n- **Smooth Ramping:** Gradual transitions between day phases (wake,
-    morning, evening, sleep, night)\n- **Helper Output:** Stores values in input_number
-    entities for use by switches, dashboards, and other automations\n- **Direct Light
-    Control:** Optionally control lights directly through this blueprint. Works standalone
-    without button automations, or alongside them for centralized adaptive scheduling\n-
-    **Auto-Adjust:** Automatically update selected lights when schedule changes (only
-    affects lights that are ON)\n- **Multiple Zones:** Create multiple instances with
-    different helper pairs for different lighting zones\n\nEach configuration option
-    below includes detailed instructions in the automation editor.\n\n## How It Works\n\nSet
-    fixed times for your daily routine, with optional sun-based adjustments:\n\n-
-    **Night → Wake:** Flat night values\n- **Wake → Morning:** Ramp up to maximum
-    values. With sun tracking enabled, the ramp waits for sunrise if it occurs after
-    the configured wake time\n- **Morning → Evening:** Flat daytime values\n- **Evening
-    → Sleep:** Ramp down to minimum values, optionally starting at sunset\n- **Sleep
-    → Night:** Ramp down to night values\n\nEach day of the week has its own time
-    settings, allowing different schedules for weekdays versus weekends.\n\n### Examples
-    With Sunrise Tracking Enabled\n\n- Summer: (Sunrise at 05:00, wake at 07:30, morning
-    at 09:00.) Ramp 07:30 → 09:00.\n\n- Winter: (Sunrise at 08:47, wake at 07:30,
-    morning at 09:00.) Ramp 08:47 → 09:00.\n\nBrightness and color temperature values
-    are shared across all days.\n\n## Example Default Weekday Schedule\n\n| Time        |
-    Brightness        | Color Temperature | Phase        |\n|-------------|-------------------|-------------------|--------------|\n|
-    00:00-07:30 | 25 percent        | 2200 K            | Night (flat) |\n| 07:30-09:00
-    | 25 to 100 percent | 2200 to 4000 K    | Morning ramp |\n| 09:00-18:30 | 100
-    percent       | 4000 K            | Day (flat)   |\n| 18:30-23:30 | 100 to 50
-    percent | 4000 to 2700 K    | Evening ramp |\n| 23:30-00:00 | 50 to 25 percent
-    \ | 2700 to 2200 K    | Sleep ramp   |\n\n## Setup\n\nOptional package setup:\nHelpers
-    may be organized into Home Assistant packages for easier management. Create a
-    packages folder in the config directory and include it in configuration.yaml.\n\nHelper
-    YAML example:\nCreate input_number helpers for brightness and color temperature.
-    \nBrightness helper range: minimum 0, maximum 100, step 1.\nColor temperature
-    helper range: minimum 2000, maximum 6500, step 100.\n\nMultiple helper pairs may
-    be created for different lighting zones.\n\nGUI alternative:\nHelpers may also
-    be created through the Home Assistant user interface under\nSettings, Devices
-    and Services, Helpers.\n\n## After Creating Helpers\n\nCreate an automation from
-    this blueprint.\nConfigure times for each day using the provided defaults.\nReference
-    the helpers from other automations or blueprints to apply adaptive\nbrightness
-    and color temperature values.\n\n## Direct Light Control (Optional)\n\nLights
-    may be selected to automatically adjust based on the adaptive schedule.\n\n- Lights
-    to Control: Select lights, devices, or areas\n- Enable Auto-Adjust: Automatically
-    update lights when the schedule changes\n- Auto-Adjust Transition: Smooth transition
-    duration, default five minutes\n\nTwo usage patterns are supported.\n\nStandalone
-    mode:\nSuitable if you want fully automatic adaptive lighting without button\nautomations.\n\nButton
-    automation mode:\nUse this blueprint for centralized scheduling while buttons
-    simply apply\nthe current adaptive values.\n\nLights are only updated when they
-    are already on.\nThis blueprint will never turn lights on or off automatically.\n\n##
-    Requirements\n\nHome Assistant 2024.10.0 or later.\nSun integration using the
-    sun.sun entity for sunrise and sunset tracking.\nOptional enable and disable helper
-    with static scene override (party mode)."
+  description: "# Adaptive Lighting Scheduler\n\nThis blueprint calculates optimal brightness and color temperature values throughout the day and stores them in input_number helpers for use by other automations and blueprints.\n\n## Key Features\n\n- **Schedule-Based:** Configure different times for each day of the week (weekdays vs weekends)\n- **Sun Tracking:** Optional sunrise and sunset awareness for natural transitions\n- **Smooth Ramping:** Gradual transitions between day phases (wake, morning, evening, sleep, night)\n- **Helper Output:** Stores values in input_number entities for use by switches, dashboards, and other automations\n- **Direct Light Control:** Optionally control lights directly through this blueprint. Works standalone without button automations, or alongside them for centralized adaptive scheduling\n- **Auto-Adjust:** Automatically update selected lights when the schedule changes (only affects lights that are ON)\n- **Multiple Zones:** Create multiple instances with different helper pairs for different lighting zones\n\nEach configuration option below includes detailed instructions in the automation editor.\n\n## How It Works\n\nSet fixed times for your daily routine, with optional sun-based adjustments:\n\n- **Night → Wake:** Flat night values\n- **Wake → Morning:** Ramp up to maximum values. With sun tracking enabled, the ramp waits for sunrise if it occurs after the configured wake time\n- **Morning → Evening:** Flat daytime values\n- **Evening → Sleep:** Ramp down to minimum values, optionally starting at sunset\n- **Sleep → Night:** Ramp down to night values\n\nEach day of the week has its own time settings, allowing different schedules for weekdays versus weekends.\n\n### Examples With Sunrise Tracking Enabled\n\n- Summer: (Sunrise at 05:00, wake at 07:30, morning at 09:00.) Ramp 07:30 → 09:00.\n- Winter: (Sunrise at 08:47, wake at 07:30, morning at 09:00.) Ramp 08:47 → 09:00.\n\nBrightness and color temperature values are shared across all days.\n\n## Example Default Weekday Schedule\n\n| Time        | Brightness        | Color Temperature | Phase        |\n|-------------|-------------------|-------------------|--------------|\n| 00:00-07:30 | 25 percent        | 2200 K            | Night (flat) |\n| 07:30-09:00 | 25 to 100 percent | 2200 to 4000 K    | Morning ramp |\n| 09:00-18:30 | 100 percent       | 4000 K            | Day (flat)   |\n| 18:30-23:30 | 100 to 50 percent | 4000 to 2700 K    | Evening ramp |\n| 23:30-00:00 | 50 to 25 percent  | 2700 to 2200 K    | Sleep ramp   |\n\n## Setup\n\nOptional package setup:\nHelpers may be organized into Home Assistant packages for easier management. Create a packages folder in the config directory and include it in configuration.yaml.\n\nHelper YAML example:\nCreate input_number helpers for brightness and color temperature.\nBrightness helper range: minimum 0, maximum 100, step 1.\nColor temperature helper range: minimum 2000, maximum 6500, step 100.\n\nMultiple helper pairs may be created for different lighting zones.\n\nGUI alternative:\nHelpers may also be created through the Home Assistant user interface under Settings, Devices and Services, Helpers.\n\n## After Creating Helpers\n\nCreate an automation from this blueprint.\nConfigure times for each day using the provided defaults.\nReference the helpers from other automations or blueprints to apply adaptive brightness and color temperature values.\n\n## Direct Light Control (Optional)\n\nLights may be selected to automatically adjust based on the adaptive schedule.\n\n- Lights to Control: Select lights, devices, or areas\n- Enable Auto-Adjust: Automatically update lights when the schedule changes\n- Auto-Adjust Transition: Smooth transition duration, default five minutes\n\nTwo usage patterns are supported.\n\nStandalone mode:\nSuitable if you want fully automatic adaptive lighting without button automations.\n\nButton automation mode:\nUse this blueprint for centralized scheduling while buttons simply apply the current adaptive values.\n\nLights are only updated when they are already on.\nThis blueprint will never turn lights on or off automatically.\n\n## Requirements\n\nHome Assistant 2024.10.0 or later.\nSun integration using the sun.sun entity for sunrise and sunset tracking.\nOptional enable and disable helper with static scene override (party mode)."
   domain: automation
   homeassistant:
     min_version: 2024.10.0
+
   input:
     output_helpers:
       name: Output Helpers
@@ -67,28 +16,28 @@ blueprint:
           name: Brightness Helper
           description: '`required` `entity`
 
-
             The input_number helper to store brightness (0-100).'
           selector:
             entity:
               filter:
-              - domain:
-                - input_number
+                - domain:
+                    - input_number
               multiple: false
               reorder: false
+
         color_temp_helper:
           name: Color Temperature Helper
           description: '`required` `entity`
-
 
             The input_number helper to store color temperature (2000-6500K).'
           selector:
             entity:
               filter:
-              - domain:
-                - input_number
+                - domain:
+                    - input_number
               multiple: false
               reorder: false
+
     enable_switch:
       name: Enable / Disable
       icon: mdi:toggle-switch
@@ -98,30 +47,30 @@ blueprint:
           name: Enable Adaptive Lighting
           description: '`optional` `entity`
 
-
             If OFF, adaptive lighting is suspended.'
           default: []
           selector:
             entity:
               filter:
-              - domain:
-                - input_boolean
+                - domain:
+                    - input_boolean
               multiple: false
               reorder: false
+
         disable_scene:
           name: Scene to Activate When Disabled
           description: '`optional` `entity`
-
 
             Scene to apply immediately when adaptive lighting is turned OFF.'
           default: []
           selector:
             entity:
               filter:
-              - domain:
-                - scene
+                - domain:
+                    - scene
               multiple: false
               reorder: false
+
     direct_light_control:
       name: Direct Light Control
       icon: mdi:lightbulb-auto
@@ -133,13 +82,15 @@ blueprint:
           selector:
             target:
               entity:
-              - domain:
-                - light
+                - domain:
+                    - light
+
         auto_adjust_enabled:
           name: Enable Auto-Adjust
           default: false
           selector:
             boolean: {}
+
         auto_adjust_transition:
           name: Auto-Adjust Transition
           default: 300
@@ -150,6 +101,7 @@ blueprint:
               step: 30.0
               unit_of_measurement: s
               mode: slider
+
     brightness_settings:
       name: Brightness Values
       icon: mdi:brightness-percent
@@ -165,6 +117,7 @@ blueprint:
               step: 5.0
               unit_of_measurement: '%'
               mode: slider
+
         min_brightness:
           name: Minimum Brightness
           default: 50
@@ -175,6 +128,7 @@ blueprint:
               step: 5.0
               unit_of_measurement: '%'
               mode: slider
+
         night_brightness:
           name: Night Brightness
           default: 25
@@ -185,6 +139,7 @@ blueprint:
               step: 5.0
               unit_of_measurement: '%'
               mode: slider
+
     color_temp_settings:
       name: Color Temperature Values
       icon: mdi:thermometer
@@ -201,6 +156,7 @@ blueprint:
               step: 50.0
               unit_of_measurement: K
               mode: slider
+
         min_color_temp:
           name: Minimum Color Temperature
           default: 2700
@@ -212,6 +168,7 @@ blueprint:
               step: 50.0
               unit_of_measurement: K
               mode: slider
+
         night_color_temp:
           name: Night Color Temperature
           default: 2200
@@ -223,6 +180,7 @@ blueprint:
               step: 50.0
               unit_of_measurement: K
               mode: slider
+
     sun_settings:
       name: Sun Settings
       icon: mdi:white-balance-sunny
@@ -233,11 +191,13 @@ blueprint:
           default: true
           selector:
             boolean: {}
+
         use_sunset:
           name: Finish Afternoon Ramp at Sunset
           default: true
           selector:
             boolean: {}
+
         sunrise_offset:
           name: Sunrise Offset
           default: 0
@@ -248,6 +208,7 @@ blueprint:
               step: 15.0
               unit_of_measurement: min
               mode: slider
+
         sunset_offset:
           name: Sunset Offset
           default: 0
@@ -258,6 +219,7 @@ blueprint:
               step: 15.0
               unit_of_measurement: min
               mode: slider
+
     time_settings_monday:
       name: Time Settings - Monday
       icon: mdi:calendar-today
@@ -268,31 +230,37 @@ blueprint:
           default: 07:00:00
           selector:
             time: {}
+
         morning_time_mon:
           name: Morning Time
           default: 09:00:00
           selector:
             time: {}
+
         evening_time_mon:
           name: Afternoon Ramp Start
           default: '17:00:00'
           selector:
             time: {}
+
         evening_flat_time_mon:
           name: Evening Flat Start
           default: '18:00:00'
           selector:
             time: {}
+
         sleep_time_mon:
           name: Sleep Time
           default: '23:30:00'
           selector:
             time: {}
+
         night_time_mon:
           name: Night Time
           default: 00:00:00
           selector:
             time: {}
+
     time_settings_tuesday:
       name: Time Settings - Tuesday
       icon: mdi:calendar-today
@@ -303,31 +271,37 @@ blueprint:
           default: 07:00:00
           selector:
             time: {}
+
         morning_time_tue:
           name: Morning Time
           default: 09:00:00
           selector:
             time: {}
+
         evening_time_tue:
           name: Afternoon Ramp Start
           default: '17:00:00'
           selector:
             time: {}
+
         evening_flat_time_tue:
           name: Evening Flat Start
           default: '18:00:00'
           selector:
             time: {}
+
         sleep_time_tue:
           name: Sleep Time
           default: '23:30:00'
           selector:
             time: {}
+
         night_time_tue:
           name: Night Time
           default: 00:00:00
           selector:
             time: {}
+
     time_settings_wednesday:
       name: Time Settings - Wednesday
       icon: mdi:calendar-today
@@ -338,31 +312,37 @@ blueprint:
           default: 07:00:00
           selector:
             time: {}
+
         morning_time_wed:
           name: Morning Time
           default: 09:00:00
           selector:
             time: {}
+
         evening_time_wed:
           name: Afternoon Ramp Start
           default: '17:00:00'
           selector:
             time: {}
+
         evening_flat_time_wed:
           name: Evening Flat Start
           default: '18:00:00'
           selector:
             time: {}
+
         sleep_time_wed:
           name: Sleep Time
           default: '23:30:00'
           selector:
             time: {}
+
         night_time_wed:
           name: Night Time
           default: 00:00:00
           selector:
             time: {}
+
     time_settings_thursday:
       name: Time Settings - Thursday
       icon: mdi:calendar-today
@@ -373,31 +353,37 @@ blueprint:
           default: 07:00:00
           selector:
             time: {}
+
         morning_time_thu:
           name: Morning Time
           default: 09:00:00
           selector:
             time: {}
+
         evening_time_thu:
           name: Afternoon Ramp Start
           default: '17:00:00'
           selector:
             time: {}
+
         evening_flat_time_thu:
           name: Evening Flat Start
           default: '18:00:00'
           selector:
             time: {}
+
         sleep_time_thu:
           name: Sleep Time
           default: '23:30:00'
           selector:
             time: {}
+
         night_time_thu:
           name: Night Time
           default: 00:00:00
           selector:
             time: {}
+
     time_settings_friday:
       name: Time Settings - Friday
       icon: mdi:calendar-today
@@ -408,31 +394,37 @@ blueprint:
           default: 07:00:00
           selector:
             time: {}
+
         morning_time_fri:
           name: Morning Time
           default: 09:00:00
           selector:
             time: {}
+
         evening_time_fri:
           name: Afternoon Ramp Start
           default: '17:00:00'
           selector:
             time: {}
+
         evening_flat_time_fri:
           name: Evening Flat Start
           default: '18:00:00'
           selector:
             time: {}
+
         sleep_time_fri:
           name: Sleep Time
           default: '23:30:00'
           selector:
             time: {}
+
         night_time_fri:
           name: Night Time
           default: 00:00:00
           selector:
             time: {}
+
     time_settings_saturday:
       name: Time Settings - Saturday
       icon: mdi:calendar-today
@@ -443,31 +435,37 @@ blueprint:
           default: 08:00:00
           selector:
             time: {}
+
         morning_time_sat:
           name: Morning Time
           default: '10:00:00'
           selector:
             time: {}
+
         evening_time_sat:
           name: Afternoon Ramp Start
           default: '17:00:00'
           selector:
             time: {}
+
         evening_flat_time_sat:
           name: Evening Flat Start
           default: '18:00:00'
           selector:
             time: {}
+
         sleep_time_sat:
           name: Sleep Time
           default: '23:30:00'
           selector:
             time: {}
+
         night_time_sat:
           name: Night Time
           default: 00:00:00
           selector:
             time: {}
+
     time_settings_sunday:
       name: Time Settings - Sunday
       icon: mdi:calendar-today
@@ -478,34 +476,41 @@ blueprint:
           default: 08:00:00
           selector:
             time: {}
+
         morning_time_sun:
           name: Morning Time
           default: '10:00:00'
           selector:
             time: {}
+
         evening_time_sun:
           name: Afternoon Ramp Start
           default: '17:00:00'
           selector:
             time: {}
+
         evening_flat_time_sun:
           name: Evening Flat Start
           default: '18:00:00'
           selector:
             time: {}
+
         sleep_time_sun:
           name: Sleep Time
           default: '23:30:00'
           selector:
             time: {}
+
         night_time_sun:
           name: Night Time
           default: 00:00:00
           selector:
             time: {}
+
   source_url: https://github.com/gitJake1980/Home-Assistant/blob/main/blueprints/automation/jacobtimmons/adaptive-lighting-schedule-renewal.yaml
+
 variables:
-    on_target_light_entities: >-
+  on_target_light_entities: >-
     {% set ids = [] %}
     {% if target_lights is mapping %}
       {% if target_lights.entity_id is defined and target_lights.entity_id %}
@@ -529,6 +534,7 @@ variables:
         | map(attribute='entity_id')
         | unique
         | list }}
+
   brightness_helper: !input brightness_helper
   color_temp_helper: !input color_temp_helper
   enabled_helper: !input enabled_helper
@@ -546,170 +552,222 @@ variables:
   use_sunset: !input use_sunset
   sunrise_offset: !input sunrise_offset
   sunset_offset: !input sunset_offset
+
   wake_time_mon: !input wake_time_mon
   morning_time_mon: !input morning_time_mon
   evening_time_mon: !input evening_time_mon
   evening_flat_time_mon: !input evening_flat_time_mon
   sleep_time_mon: !input sleep_time_mon
   night_time_mon: !input night_time_mon
+
   wake_time_tue: !input wake_time_tue
   morning_time_tue: !input morning_time_tue
   evening_time_tue: !input evening_time_tue
   evening_flat_time_tue: !input evening_flat_time_tue
   sleep_time_tue: !input sleep_time_tue
   night_time_tue: !input night_time_tue
+
   wake_time_wed: !input wake_time_wed
   morning_time_wed: !input morning_time_wed
   evening_time_wed: !input evening_time_wed
   evening_flat_time_wed: !input evening_flat_time_wed
   sleep_time_wed: !input sleep_time_wed
   night_time_wed: !input night_time_wed
+
   wake_time_thu: !input wake_time_thu
   morning_time_thu: !input morning_time_thu
   evening_time_thu: !input evening_time_thu
   evening_flat_time_thu: !input evening_flat_time_thu
   sleep_time_thu: !input sleep_time_thu
   night_time_thu: !input night_time_thu
+
   wake_time_fri: !input wake_time_fri
   morning_time_fri: !input morning_time_fri
   evening_time_fri: !input evening_time_fri
   evening_flat_time_fri: !input evening_flat_time_fri
   sleep_time_fri: !input sleep_time_fri
   night_time_fri: !input night_time_fri
+
   wake_time_sat: !input wake_time_sat
   morning_time_sat: !input morning_time_sat
   evening_time_sat: !input evening_time_sat
   evening_flat_time_sat: !input evening_flat_time_sat
   sleep_time_sat: !input sleep_time_sat
   night_time_sat: !input night_time_sat
+
   wake_time_sun: !input wake_time_sun
   morning_time_sun: !input morning_time_sun
   evening_time_sun: !input evening_time_sun
   evening_flat_time_sun: !input evening_flat_time_sun
   sleep_time_sun: !input sleep_time_sun
   night_time_sun: !input night_time_sun
-  adaptive_enabled: "{% if enabled_helper is string and enabled_helper | length >
-    0 %}\n  {{ is_state(enabled_helper, 'on') }}\n{% else %}\n  true\n{% endif %}"
-  day: '{{ now().weekday() }}'
-  wake_time: '{{ [wake_time_mon, wake_time_tue, wake_time_wed, wake_time_thu, wake_time_fri,
-    wake_time_sat, wake_time_sun][day] }}'
-  morning_time: '{{ [morning_time_mon, morning_time_tue, morning_time_wed, morning_time_thu,
-    morning_time_fri, morning_time_sat, morning_time_sun][day] }}'
-  afternoon_start_cfg: '{{ [evening_time_mon, evening_time_tue, evening_time_wed,
-    evening_time_thu, evening_time_fri, evening_time_sat, evening_time_sun][day] }}'
-  evening_flat_cfg: '{{ [evening_flat_time_mon, evening_flat_time_tue, evening_flat_time_wed,
-    evening_flat_time_thu, evening_flat_time_fri, evening_flat_time_sat, evening_flat_time_sun][day]
-    }}'
-  sleep_time: '{{ [sleep_time_mon, sleep_time_tue, sleep_time_wed, sleep_time_thu,
-    sleep_time_fri, sleep_time_sat, sleep_time_sun][day] }}'
-  night_time: '{{ [night_time_mon, night_time_tue, night_time_wed, night_time_thu,
-    night_time_fri, night_time_sat, night_time_sun][day] }}'
-  now_ts: '{{ now().timestamp() }}'
-  today_midnight: '{{ today_at(''00:00'').timestamp() }}'
-  next_midnight: '{{ (today_at(''00:00'').timestamp() + 86400) }}'
-  wake_ts: '{{ today_at(wake_time).timestamp() }}'
-  morning_ts: '{{ today_at(morning_time).timestamp() }}'
-  afternoon_cfg_ts: '{{ today_at(afternoon_start_cfg).timestamp() }}'
-  evening_flat_cfg_ts: '{{ today_at(evening_flat_cfg).timestamp() }}'
-  sleep_ts_raw: '{{ today_at(sleep_time).timestamp() }}'
-  night_ts_raw: '{{ today_at(night_time).timestamp() }}'
-  next_sunrise: '{{ (state_attr(''sun.sun'', ''next_rising'') | as_datetime).timestamp()
-    }}'
-  next_sunset: '{{ (state_attr(''sun.sun'', ''next_setting'') | as_datetime).timestamp()
-    }}'
-  today_sunrise: '{% set nsr = next_sunrise | float %} {% if nsr < next_midnight |
-    float %}{{ nsr }}{% else %}{{ nsr - 86400 }}{% endif %}'
-  today_sunset: '{% set nss = next_sunset | float %} {% if nss < next_midnight | float
-    %}{{ nss }}{% else %}{{ nss - 86400 }}{% endif %}'
-  sunrise_ts: '{{ (today_sunrise | float) + (sunrise_offset | int * 60) }}'
-  sunset_ts: '{{ (today_sunset  | float) + (sunset_offset  | int * 60) }}'
-  morning_start_ts: "{% if use_sunrise %}\n  {{ [wake_ts | float, sunrise_ts | float]
-    | max }}\n{% else %}\n  {{ wake_ts | float }}\n{% endif %}"
-  afternoon_start_ts: "{% set es = afternoon_cfg_ts | float %} {% set ef = evening_flat_cfg_ts
-    | float %} {% set dur = ef - es %} {% set ss = sunset_ts | float %} {% if use_sunset
-    and dur > 0 %}\n  {{ ss - dur }}\n{% else %}\n  {{ es }}\n{% endif %}"
-  evening_flat_ts: "{% set es = afternoon_cfg_ts | float %} {% set ef = evening_flat_cfg_ts
-    | float %} {% set s  = sleep_ts_raw | float %} {% set dur = ef - es %} {% set
-    ss = sunset_ts | float %} {% if use_sunset and dur > 0 %}\n  {% set target_end
-    = ss %}\n{% else %}\n  {% set target_end = ef %}\n{% endif %} {% set a = afternoon_start_ts
-    | float %} {{ [a, [target_end, s] | min] | max }}"
-  sleep_ts: '{% set s = sleep_ts_raw | float %} {% set e = evening_flat_ts | float
-    %} {{ [s, e] | max }}'
-  night_ts: "{% set n = night_ts_raw | float %} {% if n <= (sleep_ts | float) %}\n
-    \ {{ n + 86400 }}\n{% else %}\n  {{ n }}\n{% endif %}"
-  calculated_brightness: "{% set t  = now_ts | float %} {% set ms = morning_start_ts
-    | float %} {% set me = morning_ts | float %} {% set as = afternoon_start_ts |
-    float %} {% set ae = evening_flat_ts | float %} {% set st = sleep_ts | float %}
-    {% set nt = night_ts | float %} {% if t < ms %}\n  {{ night_brightness | int }}\n{%
-    elif t < me %}\n  {% set denom = (me - ms) %}\n  {% set p = 1 if denom <= 0 else
-    (t - ms) / denom %}\n  {% set p = [0, [1, p] | min] | max %}\n  {{ (night_brightness
-    + (max_brightness - night_brightness) * p) | round(0) | int }}\n{% elif t < as
-    %}\n  {{ max_brightness | int }}\n{% elif t < ae %}\n  {% set denom = (ae - as)
-    %}\n  {% set p = 1 if denom <= 0 else (t - as) / denom %}\n  {% set p = [0, [1,
-    p] | min] | max %}\n  {{ (max_brightness - (max_brightness - min_brightness) *
-    p) | round(0) | int }}\n{% elif t < st %}\n  {{ min_brightness | int }}\n{% elif
-    t < nt %}\n  {% set denom = (nt - st) %}\n  {% set p = 1 if denom <= 0 else (t
-    - st) / denom %}\n  {% set p = [0, [1, p] | min] | max %}\n  {{ (min_brightness
-    - (min_brightness - night_brightness) * p) | round(0) | int }}\n{% else %}\n  {{
-    night_brightness | int }}\n{% endif %}"
-  calculated_color_temp: "{% set t  = now_ts | float %} {% set ms = morning_start_ts
-    | float %} {% set me = morning_ts | float %} {% set as = afternoon_start_ts |
-    float %} {% set ae = evening_flat_ts | float %} {% set st = sleep_ts | float %}
-    {% set nt = night_ts | float %} {% if t < ms %}\n  {{ night_color_temp | int }}\n{%
-    elif t < me %}\n  {% set denom = (me - ms) %}\n  {% set p = 1 if denom <= 0 else
-    (t - ms) / denom %}\n  {% set p = [0, [1, p] | min] | max %}\n  {{ (night_color_temp
-    + (max_color_temp - night_color_temp) * p) | round(0) | int }}\n{% elif t < as
-    %}\n  {{ max_color_temp | int }}\n{% elif t < ae %}\n  {% set denom = (ae - as)
-    %}\n  {% set p = 1 if denom <= 0 else (t - as) / denom %}\n  {% set p = [0, [1,
-    p] | min] | max %}\n  {{ (max_color_temp - (max_color_temp - min_color_temp) *
-    p) | round(0) | int }}\n{% elif t < st %}\n  {{ min_color_temp | int }}\n{% elif
-    t < nt %}\n  {% set denom = (nt - st) %}\n  {% set p = 1 if denom <= 0 else (t
-    - st) / denom %}\n  {% set p = [0, [1, p] | min] | max %}\n  {{ (min_color_temp
-    - (min_color_temp - night_color_temp) * p) | round(0) | int }}\n{% else %}\n  {{
-    night_color_temp | int }}\n{% endif %}"
+
+  adaptive_enabled: "{% if enabled_helper is string and enabled_helper | length > 0 %}\n  {{ is_state(enabled_helper, 'on') }}\n{% else %}\n  true\n{% endif %}"
+  day: "{{ now().weekday() }}"
+  wake_time: "{{ [wake_time_mon, wake_time_tue, wake_time_wed, wake_time_thu, wake_time_fri, wake_time_sat, wake_time_sun][day] }}"
+  morning_time: "{{ [morning_time_mon, morning_time_tue, morning_time_wed, morning_time_thu, morning_time_fri, morning_time_sat, morning_time_sun][day] }}"
+  afternoon_start_cfg: "{{ [evening_time_mon, evening_time_tue, evening_time_wed, evening_time_thu, evening_time_fri, evening_time_sat, evening_time_sun][day] }}"
+  evening_flat_cfg: "{{ [evening_flat_time_mon, evening_flat_time_tue, evening_flat_time_wed, evening_flat_time_thu, evening_flat_time_fri, evening_flat_time_sat, evening_flat_time_sun][day] }}"
+  sleep_time: "{{ [sleep_time_mon, sleep_time_tue, sleep_time_wed, sleep_time_thu, sleep_time_fri, sleep_time_sat, sleep_time_sun][day] }}"
+  night_time: "{{ [night_time_mon, night_time_tue, night_time_wed, night_time_thu, night_time_fri, night_time_sat, night_time_sun][day] }}"
+
+  now_ts: "{{ now().timestamp() }}"
+  today_midnight: "{{ today_at('00:00').timestamp() }}"
+  next_midnight: "{{ (today_at('00:00').timestamp() + 86400) }}"
+
+  wake_ts: "{{ today_at(wake_time).timestamp() }}"
+  morning_ts: "{{ today_at(morning_time).timestamp() }}"
+  afternoon_cfg_ts: "{{ today_at(afternoon_start_cfg).timestamp() }}"
+  evening_flat_cfg_ts: "{{ today_at(evening_flat_cfg).timestamp() }}"
+  sleep_ts_raw: "{{ today_at(sleep_time).timestamp() }}"
+  night_ts_raw: "{{ today_at(night_time).timestamp() }}"
+
+  next_sunrise: "{{ (state_attr('sun.sun', 'next_rising') | as_datetime).timestamp() }}"
+  next_sunset: "{{ (state_attr('sun.sun', 'next_setting') | as_datetime).timestamp() }}"
+
+  today_sunrise: "{% set nsr = next_sunrise | float %} {% if nsr < next_midnight | float %}{{ nsr }}{% else %}{{ nsr - 86400 }}{% endif %}"
+  today_sunset: "{% set nss = next_sunset | float %} {% if nss < next_midnight | float %}{{ nss }}{% else %}{{ nss - 86400 }}{% endif %}"
+
+  sunrise_ts: "{{ (today_sunrise | float) + (sunrise_offset | int * 60) }}"
+  sunset_ts: "{{ (today_sunset  | float) + (sunset_offset  | int * 60) }}"
+
+  morning_start_ts: "{% if use_sunrise %}\n  {{ [wake_ts | float, sunrise_ts | float] | max }}\n{% else %}\n  {{ wake_ts | float }}\n{% endif %}"
+
+  afternoon_start_ts: "{% set es = afternoon_cfg_ts | float %} {% set ef = evening_flat_cfg_ts | float %} {% set dur = ef - es %} {% set ss = sunset_ts | float %} {% if use_sunset and dur > 0 %}\n  {{ ss - dur }}\n{% else %}\n  {{ es }}\n{% endif %}"
+
+  evening_flat_ts: "{% set es = afternoon_cfg_ts | float %} {% set ef = evening_flat_cfg_ts | float %} {% set s  = sleep_ts_raw | float %} {% set dur = ef - es %} {% set ss = sunset_ts | float %} {% if use_sunset and dur > 0 %}\n  {% set target_end = ss %}\n{% else %}\n  {% set target_end = ef %}\n{% endif %} {% set a = afternoon_start_ts | float %} {{ [a, [target_end, s] | min] | max }}"
+
+  sleep_ts: "{% set s = sleep_ts_raw | float %} {% set e = evening_flat_ts | float %} {{ [s, e] | max }}"
+
+  night_ts: "{% set n = night_ts_raw | float %} {% if n <= (sleep_ts | float) %}\n  {{ n + 86400 }}\n{% else %}\n  {{ n }}\n{% endif %}"
+
+  calculated_brightness: >-
+    {% set t  = now_ts | float %}
+    {% set ms = morning_start_ts | float %}
+    {% set me = morning_ts | float %}
+    {% set as = afternoon_start_ts | float %}
+    {% set ae = evening_flat_ts | float %}
+    {% set st = sleep_ts | float %}
+    {% set nt = night_ts | float %}
+    {% if t < ms %}
+      {{ night_brightness | int }}
+    {% elif t < me %}
+      {% set denom = (me - ms) %}
+      {% set p = 1 if denom <= 0 else (t - ms) / denom %}
+      {% set p = [0, [1, p] | min] | max %}
+      {{ (night_brightness + (max_brightness - night_brightness) * p) | round(0) | int }}
+    {% elif t < as %}
+      {{ max_brightness | int }}
+    {% elif t < ae %}
+      {% set denom = (ae - as) %}
+      {% set p = 1 if denom <= 0 else (t - as) / denom %}
+      {% set p = [0, [1, p] | min] | max %}
+      {{ (max_brightness - (max_brightness - min_brightness) * p) | round(0) | int }}
+    {% elif t < st %}
+      {{ min_brightness | int }}
+    {% elif t < nt %}
+      {% set denom = (nt - st) %}
+      {% set p = 1 if denom <= 0 else (t - st) / denom %}
+      {% set p = [0, [1, p] | min] | max %}
+      {{ (min_brightness - (min_brightness - night_brightness) * p) | round(0) | int }}
+    {% else %}
+      {{ night_brightness | int }}
+    {% endif %}
+
+  calculated_color_temp: >-
+    {% set t  = now_ts | float %}
+    {% set ms = morning_start_ts | float %}
+    {% set me = morning_ts | float %}
+    {% set as = afternoon_start_ts | float %}
+    {% set ae = evening_flat_ts | float %}
+    {% set st = sleep_ts | float %}
+    {% set nt = night_ts | float %}
+    {% if t < ms %}
+      {{ night_color_temp | int }}
+    {% elif t < me %}
+      {% set denom = (me - ms) %}
+      {% set p = 1 if denom <= 0 else (t - ms) / denom %}
+      {% set p = [0, [1, p] | min] | max %}
+      {{ (night_color_temp + (max_color_temp - night_color_temp) * p) | round(0) | int }}
+    {% elif t < as %}
+      {{ max_color_temp | int }}
+    {% elif t < ae %}
+      {% set denom = (ae - as) %}
+      {% set p = 1 if denom <= 0 else (t - as) / denom %}
+      {% set p = [0, [1, p] | min] | max %}
+      {{ (max_color_temp - (max_color_temp - min_color_temp) * p) | round(0) | int }}
+    {% elif t < st %}
+      {{ min_color_temp | int }}
+    {% elif t < nt %}
+      {% set denom = (nt - st) %}
+      {% set p = 1 if denom <= 0 else (t - st) / denom %}
+      {% set p = [0, [1, p] | min] | max %}
+      {{ (min_color_temp - (min_color_temp - night_color_temp) * p) | round(0) | int }}
+    {% else %}
+      {{ night_color_temp | int }}
+    {% endif %}
+
 mode: restart
-triggers:
-- trigger: time_pattern
-  minutes: /5
-- trigger: state
-  entity_id: sun.sun
-- trigger: homeassistant
-  event: start
-- trigger: state
-  entity_id: !input enabled_helper
-actions:
-- choose:
-  - conditions:
-    - '{{ adaptive_enabled }}'
-    sequence:
-    - service: input_number.set_value
-      target:
-        entity_id: '{{ brightness_helper }}'
-      data:
-        value: '{{ calculated_brightness }}'
-    - service: input_number.set_value
-      target:
-        entity_id: '{{ color_temp_helper }}'
-      data:
-        value: '{{ calculated_color_temp }}'
-    - if:
-      - '{{ auto_adjust_enabled }}'
-      then:
-      - choose:
-        - conditions:
-            - "{{ on_target_light_entities | length > 0 }}"
-          sequence:
-            - service: light.turn_on
-              target:
-                entity_id: "{{ on_target_light_entities }}"
-              data:
-                brightness_pct: '{{ calculated_brightness }}'
-                color_temp_kelvin: '{{ calculated_color_temp }}'
-                transition: '{{ auto_adjust_transition }}'
-  - conditions:
-    - '{{ not adaptive_enabled }}'
-    - '{{ disable_scene is string and disable_scene | length > 0 }}'
-    sequence:
-    - service: scene.turn_on
-      target:
-        entity_id: '{{ disable_scene }}'
+
+trigger:
+  - platform: time_pattern
+    minutes: "/5"
+  - platform: state
+    entity_id: sun.sun
+  - platform: homeassistant
+    event: start
+  - platform: state
+    entity_id: !input enabled_helper
+
+action:
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ adaptive_enabled }}"
+        sequence:
+          - service: input_number.set_value
+            target:
+              entity_id: "{{ brightness_helper }}"
+            data:
+              value: "{{ calculated_brightness }}"
+
+          - service: input_number.set_value
+            target:
+              entity_id: "{{ color_temp_helper }}"
+            data:
+              value: "{{ calculated_color_temp }}"
+
+          - if:
+              - condition: template
+                value_template: "{{ auto_adjust_enabled }}"
+            then:
+              - choose:
+                  - conditions:
+                      - condition: template
+                        value_template: "{{ on_target_light_entities | length > 0 }}"
+                    sequence:
+                    
+                      - service: persistent_notification.create
+                        data:
+                            title: "Adaptive lighting debug"
+                            message: "On lights: {{ on_target_light_entities }}"
+
+                    
+                    
+                      - service: light.turn_on
+                        target:
+                          entity_id: "{{ on_target_light_entities }}"
+                        data:
+                          brightness_pct: "{{ calculated_brightness }}"
+                          color_temp_kelvin: "{{ calculated_color_temp }}"
+                          transition: "{{ auto_adjust_transition }}"
+
+      - conditions:
+          - condition: template
+            value_template: "{{ not adaptive_enabled }}"
+          - condition: template
+            value_template: "{{ disable_scene is string and disable_scene | length > 0 }}"
+        sequence:
+          - service: scene.turn_on
+            target:
+              entity_id: "{{ disable_scene }}"

@@ -1470,18 +1470,18 @@
       - hs
       color_mode: color_temp
       brightness: 255
-      color_temp_kelvin: 3510
+      color_temp_kelvin: 3519
       color_temp: 284
       hs_color:
-      - 27.163
-      - 44.557
+      - 27.154
+      - 44.363
       rgb_color:
       - 255
       - 193
-      - 141
+      - 142
       xy_color:
-      - 0.453
-      - 0.374
+      - 0.452
+      - 0.373
       friendly_name: Living Room Floor Lamp 1
       supported_features: 0
       state: 'on'
@@ -1493,22 +1493,49 @@
       supported_color_modes:
       - color_temp
       - hs
+      friendly_name: Living Room Floor Lamp 2
+      supported_features: 0
       color_mode: color_temp
       brightness: 255
-      color_temp_kelvin: 3510
+      color_temp_kelvin: 3519
       color_temp: 284
       hs_color:
-      - 27.163
-      - 44.557
+      - 27.154
+      - 44.363
       rgb_color:
       - 255
       - 193
-      - 141
+      - 142
       xy_color:
-      - 0.453
-      - 0.374
-      friendly_name: Living Room Floor Lamp 2
-      supported_features: 0
+      - 0.452
+      - 0.373
+      state: 'on'
+    light.hallway:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 255
+      color_temp_kelvin: 4016
+      color_temp: 249
+      hs_color:
+      - 26.805
+      - 34.581
+      rgb_color:
+      - 255
+      - 206
+      - 167
+      xy_color:
+      - 0.419
+      - 0.364
+      mode: normal
+      dynamics: none
+      friendly_name: Hallway
+      supported_features: 40
       state: 'on'
   metadata:
     light.ceiling_lamp_1:
@@ -1526,6 +1553,8 @@
     light.living_room_floor_lamp_1:
       entity_only: true
     light.living_room_floor_lamp_2:
+      entity_only: true
+    light.hallway:
       entity_only: true
   icon: mdi:sofa
 - id: '1767457290762'
